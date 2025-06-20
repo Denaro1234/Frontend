@@ -1,0 +1,103 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>Call Sheet</h1>
+    <div class="header-actions">
+      <button class="btn btn-primary" (click)="addRow()">
+        <i class="fas fa-plus"></i> Add Entry
+      </button>
+      <button class="btn btn-secondary" (click)="navigateToEdit()">
+        <i class="fas fa-edit"></i> Edit Entry
+      </button>
+      <button class="btn btn-info" (click)="showViewInfo()" [disabled]="!callSheetData.length">
+        <i class="fas fa-info-circle"></i> View Info
+      </button>
+      <button class="btn btn-success" (click)="updateAllEditedRows()">
+        <i class="fas fa-sync-alt"></i> Update
+      </button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="text-center" style="width: 8%">ID</th>
+            <th class="text-center" style="width: 12%">Parent Name</th>
+            <th class="text-center" style="width: 12%">Student Name</th>
+            <th class="text-center" style="width: 11%">Contact Date</th>
+            <th class="text-center" style="width: auto;">Comments</th>
+            <th class="text-center" style="width: auto;">Lead Source</th>
+            <th class="text-center" style="width: 8%">EOD</th>
+            <th class="text-center" style="width: 8%">Status</th>
+            <th class="text-center" style="width: auto;">Contact</th>
+            <th class="text-center" style="width: auto;">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of callSheetData; let i = index" [class.editing]="row.editing || row.isNew">
+            <td class="text-center">
+              <ng-container *ngIf="!row.editing && !row.isNew">{{row.Recruitment_Data_ID}}</ng-container>
+              <input *ngIf="row.isNew" type="number" class="form-control text-center" [(ngModel)]="row.Recruitment_Data_ID" placeholder="New ID">
+              <span *ngIf="row.editing && !row.isNew">{{row.Recruitment_Data_ID}}</span>
+            </td>
+            <td class="text-center">
+              <ng-container *ngIf="!row.editing && !row.isNew">{{row.Parent_Name}}</ng-container>
+              <input *ngIf="row.editing || row.isNew" type="text" class="form-control text-center" [(ngModel)]="row.Parent_Name">
+            </td>
+            <td class="text-center">
+              <ng-container *ngIf="!row.editing && !row.isNew">{{row.Student_Name}}</ng-container>
+              <input *ngIf="row.editing || row.isNew" type="text" class="form-control text-center" [(ngModel)]="row.Student_Name">
+            </td>
+            <td class="text-center">
+              <ng-container *ngIf="!row.editing && !row.isNew">{{row.Contact_Date | date:'short'}}</ng-container>
+              <input *ngIf="row.editing || row.isNew" type="datetime-local" class="form-control text-center" [(ngModel)]="row.Contact_Date">
+            </td>
+            <td class="text-center">
+              <ng-container *ngIf="!row.editing && !row.isNew">{{row.Comments}}</ng-container>
+              <input *ngIf="row.editing || row.isNew" type="text" class="form-control text-center" [(ngModel)]="row.Comments">
+            </td>
+            <td class="text-center">
+              <ng-container *ngIf="!row.editing && !row.isNew">{{row.Lead_Source_Code}}</ng-container>
+              <input *ngIf="row.editing || row.isNew" type="text" class="form-control text-center" [(ngModel)]="row.Lead_Source_Code">
+            </td>
+            <td class="text-center">
+              <ng-container *ngIf="!row.editing && !row.isNew">{{row.EOD}}</ng-container>
+              <select *ngIf="row.editing || row.isNew" class="form-control text-center" [(ngModel)]="row.EOD">
+                <option *ngFor="let option of eodOptions" [value]="option.value">{{option.label}}</option>
+              </select>
+            </td>
+            <td class="text-center">
+              <ng-container *ngIf="!row.editing && !row.isNew">{{row.Status}}</ng-container>
+              <select *ngIf="row.editing || row.isNew" class="form-control text-center" [(ngModel)]="row.Status">
+                <option *ngFor="let option of statusOptions" [value]="option.value" [ngClass]="option.class">{{option.label}}</option>
+              </select>
+            </td>
+            <td class="text-center">
+              <ng-container *ngIf="!row.editing && !row.isNew">{{row.Contact}}</ng-container>
+              <input *ngIf="row.editing || row.isNew" type="text" class="form-control text-center" [(ngModel)]="row.Contact">
+            </td>
+            <td class="text-center">
+              <ng-container *ngIf="!row.editing && !row.isNew">{{row.Email}}</ng-container>
+              <input *ngIf="row.editing || row.isNew" type="email" class="form-control text-center" [(ngModel)]="row.Email">
+            </td>
+          </tr>
+          <tr *ngIf="callSheetData.length === 0">
+            <td colspan="10" class="text-center py-4">
+              <div class="empty-state">
+                <i class="fas fa-inbox fa-3x"></i>
+                <p>No entries found</p>
+                <button class="btn btn-primary" (click)="addRow()">Add First Entry</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<app-view-info-modal
+  *ngIf="showViewInfoModal && selectedRow"
+  [data]="selectedRow"
+  (close)="closeViewInfoModal()"
+></app-view-info-modal>

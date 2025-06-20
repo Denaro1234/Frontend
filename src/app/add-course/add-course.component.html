@@ -1,0 +1,66 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>Add New Course</h1>
+  </div>
+  <form (ngSubmit)="onSubmit()" #courseForm="ngForm" class="form-grid">
+    <div class="form-group">
+      <label>Course Name*</label>
+      <input type="text" class="form-control" [(ngModel)]="course.Course_Name" name="Course_Name" required>
+    </div>
+    <div class="form-group">
+      <label>Course Description</label>
+      <textarea class="form-control" [(ngModel)]="course.Course_Description" name="Course_Description"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Instructor Head ID</label>
+      <input type="number" class="form-control" [(ngModel)]="course.Instructor_Head_ID" name="Instructor_Head_ID">
+    </div>
+    <div class="form-group">
+      <label>Instructor Lab ID</label>
+      <input type="number" class="form-control" [(ngModel)]="course.Instructor_Lab_ID" name="Instructor_Lab_ID">
+    </div>
+    <div class="form-group">
+      <label>Clan*</label>
+      <input type="text" class="form-control" [(ngModel)]="course.Clan" name="Clan" required>
+    </div>
+    <div class="form-group">
+      <label>Duration (in hours)*</label>
+      <input type="number" class="form-control" [(ngModel)]="course.Duration" name="Duration" required>
+    </div>
+    <div class="form-group">
+      <label>Delivery Language*</label>
+      <input type="text" class="form-control" [(ngModel)]="course.Delivery_Language" name="Delivery_Language" required>
+    </div>
+    <div class="form-group">
+      <label>Flavour*</label>
+      <input type="text" class="form-control" [(ngModel)]="course.Flavour" name="Flavour" required>
+    </div>
+    <div class="form-group">
+      <label>Class Status*</label>
+      <select class="form-control" [(ngModel)]="course.Class_Status" name="Class_Status" required>
+        <option value="1">Active</option>
+        <option value="0">Inactive</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Course Fee</label>
+      <input type="number" class="form-control" [(ngModel)]="course.Course_Fee" name="Course_Fee">
+    </div>
+    <div class="form-group">
+      <label>Teacher Guide URL</label>
+      <input type="text" class="form-control" [(ngModel)]="course.Teacher_Guide" name="Teacher_Guide">
+    </div>
+    <div class="form-group">
+      <label>Brochure 1 URL</label>
+      <input type="text" class="form-control" [(ngModel)]="course.Brochure_1" name="Brochure_1">
+    </div>
+    <div class="form-group">
+      <label>Brochure 2 URL</label>
+      <input type="text" class="form-control" [(ngModel)]="course.Brochure_2" name="Brochure_2">
+    </div>
+    <div class="form-actions full-width">
+      <button type="submit" class="btn btn-primary">Add Course</button>
+      <button type="button" class="btn btn-secondary" (click)="router.navigate(['/courses'])">Cancel</button>
+    </div>
+  </form>
+</div> 

@@ -1,0 +1,17 @@
+<div class="edit-form">
+  <h2>Edit Call Sheet Entry</h2>
+  <form (ngSubmit)="save()">
+    <label>ID: <input [(ngModel)]="row.Recruitment_Data_ID" name="id" readonly /></label><br />
+    <label>Parent Name: <input [(ngModel)]="row.Parent_Name" name="parentName" /></label><br />
+    <label>Student Name: <input [(ngModel)]="row.Student_Name" name="studentName" /></label><br />
+    <label>Contact: <input [(ngModel)]="row.Contact" name="contact" /></label><br />
+    <label>Email: <input [(ngModel)]="row.Email" name="email" /></label><br />
+    <label>Comments: <input [(ngModel)]="row.Comments" name="comments" /></label><br />
+    <label>Lead Source: <input [(ngModel)]="row.Lead_Source_Code" name="leadSource" /></label><br />
+    <label>Status: <input [(ngModel)]="row.Status" name="status" /></label><br />
+    <label>EOD: <input [(ngModel)]="row.EOD" name="eod" /></label><br />
+    <label>Contact Date: <input [(ngModel)]="row.Contact_Date" name="contactDate" type="datetime-local" /></label><br />
+    <button type="submit">Save</button>
+    <button type="button" (click)="cancel()">Cancel</button>
+  </form>
+</div> 

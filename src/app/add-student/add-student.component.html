@@ -1,0 +1,109 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>Add Student</h1>
+  </div>
+  <form (ngSubmit)="onSubmit()" #studentForm="ngForm" class="form-grid">
+    <div class="form-group">
+      <label>First Name*</label>
+      <input type="text" class="form-control" [(ngModel)]="student.First_Name" name="First_Name" required>
+    </div>
+    <div class="form-group">
+      <label>Middle Name</label>
+      <input type="text" class="form-control" [(ngModel)]="student.Middle_Name" name="Middle_Name">
+    </div>
+    <div class="form-group">
+      <label>Last Name*</label>
+      <input type="text" class="form-control" [(ngModel)]="student.Last_Name" name="Last_Name" required>
+    </div>
+    <div class="form-group">
+      <label>Date Of Birth*</label>
+      <input type="date" class="form-control" [(ngModel)]="student.Date_Of_Birth" name="Date_Of_Birth" required (change)="calculateAge()">
+    </div>
+    <div class="form-group">
+      <label>Age</label>
+      <input type="number" class="form-control" [(ngModel)]="student.Age" name="Age" readonly>
+    </div>
+    <div class="form-group">
+      <label>Preference Language*</label>
+      <input type="text" class="form-control" [(ngModel)]="student.Preference_Language" name="Preference_Language" required>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" class="form-control" [(ngModel)]="student.Email" name="Email">
+    </div>
+    <div class="form-group">
+      <label>School</label>
+      <input type="text" class="form-control" [(ngModel)]="student.School" name="School">
+    </div>
+    <div class="form-group">
+      <label>Phone</label>
+      <input type="tel" class="form-control" [(ngModel)]="student.Phone" name="Phone">
+    </div>
+    <div class="form-group">
+      <label>Whatsapp Phone</label>
+      <input type="tel" class="form-control" [(ngModel)]="student.Whatsapp_Phone" name="Whatsapp_Phone">
+    </div>
+    <div class="form-group">
+      <label>Start Date</label>
+      <input type="datetime-local" class="form-control" [(ngModel)]="student.Start_Date" name="Start_Date">
+    </div>
+    <div class="form-group">
+      <label>End Date</label>
+      <input type="datetime-local" class="form-control" [(ngModel)]="student.End_Date" name="End_Date">
+    </div>
+    <div class="form-group full-width">
+      <label>Address*</label>
+      <textarea class="form-control" [(ngModel)]="student.Address" name="Address" required></textarea>
+    </div>
+    <div class="form-group">
+      <label>Status</label>
+      <select class="form-control" [(ngModel)]="student.Status" name="Status">
+        <option value="1">Active</option>
+        <option value="0">Inactive</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Created On</label>
+      <input type="datetime-local" class="form-control" [(ngModel)]="student.Created_On" name="Created_On">
+    </div>
+    <div class="form-group">
+      <label>Created By</label>
+      <input type="text" class="form-control" [(ngModel)]="student.Created_By" name="Created_By">
+    </div>
+    <div class="form-group">
+      <label>Updated On</label>
+      <input type="datetime-local" class="form-control" [(ngModel)]="student.Updated_On" name="Updated_On">
+    </div>
+    <div class="form-group">
+      <label>Updated By</label>
+      <input type="text" class="form-control" [(ngModel)]="student.Updated_By" name="Updated_By">
+    </div>
+    <div class="form-group">
+      <label>Social Media 1</label>
+      <input type="text" class="form-control" [(ngModel)]="student.Social_Media_1" name="Social_Media_1">
+    </div>
+    <div class="form-group">
+      <label>Social Media 2</label>
+      <input type="text" class="form-control" [(ngModel)]="student.Social_Media_2" name="Social_Media_2">
+    </div>
+    <div class="form-group">
+      <label>Social Media 3</label>
+      <input type="text" class="form-control" [(ngModel)]="student.Social_Media_3" name="Social_Media_3">
+    </div>
+    <div class="form-group">
+      <label>Hobby 1</label>
+      <input type="text" class="form-control" [(ngModel)]="student.Hobby_1" name="Hobby_1">
+    </div>
+    <div class="form-group">
+      <label>Hobby 2</label>
+      <input type="text" class="form-control" [(ngModel)]="student.Hobby_2" name="Hobby_2">
+    </div>
+    <div class="form-group">
+      <label>Hobby 3</label>
+      <input type="text" class="form-control" [(ngModel)]="student.Hobby_3" name="Hobby_3">
+    </div>
+    <div class="form-actions full-width">
+      <button type="submit" class="btn btn-primary">Add Student</button>
+    </div>
+  </form>
+</div> 

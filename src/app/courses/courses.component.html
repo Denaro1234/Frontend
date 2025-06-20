@@ -1,0 +1,75 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>Courses</h1>
+    <div class="header-actions">
+      <button class="btn btn-secondary" (click)="navigateToEditCourseById()">
+        <i class="fas fa-edit"></i>
+        Edit Course
+      </button>
+      <button class="btn btn-primary" (click)="goToAddCourse()">
+        <i class="fas fa-plus"></i>
+        Add Course
+      </button>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <div *ngIf="loading" class="loading-state">
+      <i class="fas fa-spinner fa-spin fa-2x"></i>
+      <p>Loading courses...</p>
+    </div>
+
+    <div *ngIf="error" class="error-state">
+      <i class="fas fa-exclamation-circle fa-2x"></i>
+      <p>{{ error }}</p>
+      <button class="btn btn-primary" (click)="fetchData()">
+        <i class="fas fa-sync-alt"></i>
+        Try Again
+      </button>
+    </div>
+
+    <table *ngIf="!loading && !error" class="table">
+      <thead>
+        <tr>
+          <th>Course ID</th>
+          <th>Course Name</th>
+          <th>Description</th>
+          <th>Head ID</th>
+          <th>Lab ID</th>
+          <th>Clan</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let course of courses">
+          <td>{{ course.Course_ID }}</td>
+          <td>{{ course.Course_Name }}</td>
+          <td>{{ course.Course_Description }}</td>
+          <td>{{ course.Instructor_Head_ID }}</td>
+          <td>{{ course.Instructor_Lab_ID }}</td>
+          <td>{{ course.Clan }}</td>
+          <td>
+            <button class="btn btn-info btn-sm" (click)="goToEditCourse(course.Course_ID)">
+              <i class="fas fa-edit"></i>
+              Edit
+            </button>
+            <button class="btn btn-danger btn-sm" (click)="deleteCourse(course.Course_ID)">
+              <i class="fas fa-trash"></i>
+              Delete
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="courses.length === 0">
+          <td colspan="7" class="empty-state">
+            <i class="fas fa-book fa-3x"></i>
+            <p>No courses found</p>
+            <button class="btn btn-primary" (click)="goToAddCourse()">
+              <i class="fas fa-plus"></i>
+              Add Course
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div> 

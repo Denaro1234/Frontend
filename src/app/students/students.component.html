@@ -1,0 +1,83 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>Students</h1>
+    <div class="stats">
+      <div class="stat-item">
+        <span class="stat-value">{{studentsData.length}}</span>
+        <span class="stat-label">Total Entries</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">{{getActiveCount()}}</span>
+        <span class="stat-label">Active</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-secondary" (click)="navigateToEdit()">
+        <i class="fas fa-edit"></i>
+        Edit Row
+      </button>
+      <button class="btn btn-primary" (click)="goToAddStudent()">
+        <i class="fas fa-plus"></i>
+        Add Student
+      </button>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="text-center">Index Number</th>
+          <th class="text-center">First Name</th>
+          <th class="text-center">Middle Name</th>
+          <th class="text-center">Last Name</th>
+          <th class="text-center">Date of Birth</th>
+          <th class="text-center">Age</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of studentsData; let i = index" [class.editing]="student.editing || student.isNew">
+          <td class="text-center">{{student.Index_Number || 'New'}}</td>
+          <td class="text-center">
+            <ng-container *ngIf="!student.editing && !student.isNew">{{student.First_Name}}</ng-container>
+            <input *ngIf="student.editing || student.isNew" type="text" class="form-control text-center" [(ngModel)]="student.First_Name">
+          </td>
+          <td class="text-center">
+            <ng-container *ngIf="!student.editing && !student.isNew">{{student.Middle_Name}}</ng-container>
+            <input *ngIf="student.editing || student.isNew" type="text" class="form-control text-center" [(ngModel)]="student.Middle_Name">
+          </td>
+          <td class="text-center">
+            <ng-container *ngIf="!student.editing && !student.isNew">{{student.Last_Name}}</ng-container>
+            <input *ngIf="student.editing || student.isNew" type="text" class="form-control text-center" [(ngModel)]="student.Last_Name">
+          </td>
+          <td class="text-center">
+            <ng-container *ngIf="!student.editing && !student.isNew">{{student.Date_Of_Birth | date:'shortDate'}}</ng-container>
+            <input *ngIf="student.editing || student.isNew" type="date" class="form-control text-center" [(ngModel)]="student.Date_Of_Birth" (change)="calculateAge(student)">
+          </td>
+          <td class="text-center">{{student.Age}}</td>
+          <td class="text-center">
+            <div class="actions">
+              <ng-container *ngIf="!student.editing && !student.isNew">
+                <button class="btn-icon" (click)="editRow(i)" title="Edit">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon text-danger" (click)="deleteRow(student.Index_Number)" title="Delete">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </ng-container>
+              <ng-container *ngIf="student.editing || student.isNew">
+                <button class="btn-icon text-success" (click)="updateRow(student)" title="Save">
+                  <i class="fas fa-check"></i>
+                </button>
+                <button class="btn-icon text-danger" (click)="cancelEdit(i)" title="Cancel">
+                  <i class="fas fa-times"></i>
+                </button>
+              </ng-container>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div> 
