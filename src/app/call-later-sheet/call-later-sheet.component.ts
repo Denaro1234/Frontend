@@ -243,4 +243,30 @@ export class CallLaterSheetComponent implements OnInit {
       }
     }
   }
+
+  updateRow(row: CallLaterRow): void {
+    if (row.isNew) {
+      this.http.post<CallLaterRow>(`${this.apiUrl}`, this.cleanRowForSave(row)).subscribe({
+        next: () => {
+          alert('Row added successfully!');
+          this.fetchData();
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error('Error saving new row:', error);
+          alert('Error saving new row.');
+        }
+      });
+    } else if (row.editing && row.Call_Later_Data_ID) {
+      this.http.put<CallLaterRow>(`${this.apiUrl}/${row.Call_Later_Data_ID}`, this.cleanRowForSave(row)).subscribe({
+        next: () => {
+          alert('Row updated successfully!');
+          this.fetchData();
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error('Error updating row:', error);
+          alert('Error updating row.');
+        }
+      });
+    }
+  }
 }

@@ -4,7 +4,6 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ViewInfoModalComponent } from '../view-info-modal/view-info-modal.component';
 
 interface DumpRow {
   Dump_ID: number | null;
@@ -19,7 +18,7 @@ interface DumpRow {
   selector: 'app-dump',
   templateUrl: './dump-sheet.component.html',
   styleUrls: ['./dump-sheet.component.css'],
-  imports: [CommonModule, FormsModule, ViewInfoModalComponent],
+  imports: [CommonModule, FormsModule],
   standalone: true
 })
 export class DumpSheetComponent implements OnInit {

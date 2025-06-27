@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 interface DumpRow {
   Dump_ID: number | null;
@@ -11,6 +13,8 @@ interface DumpRow {
 
 @Component({
   selector: 'app-edit-dump',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './edit-dump.component.html',
   styleUrls: ['./edit-dump.component.css']
 })
