@@ -8,7 +8,7 @@ interface CallSheetRow {
   Recruitment_Data_ID: number | null;
   Parent_Name: string;
   Student_Name: string;
-  Contact_Date: string;
+  Call_Date: string;
   Comments: string;
   Lead_Source_Code: string;
   EOD: string;
@@ -41,7 +41,7 @@ interface CallSheetRow {
           </div>
           <div class="form-group">
             <label>Contact Date</label>
-            <input type="datetime-local" class="form-control" [(ngModel)]="row.Contact_Date" name="Contact_Date" required>
+            <input type="datetime-local" class="form-control" [(ngModel)]="row.Call_Date" name="Call_Date" required>
           </div>
           <div class="form-group">
             <label>Comments</label>
@@ -101,7 +101,7 @@ export class EditCallsComponent implements OnInit {
     Recruitment_Data_ID: null,
     Parent_Name: '',
     Student_Name: '',
-    Contact_Date: '',
+    Call_Date: '',
     Comments: '',
     Lead_Source_Code: '',
     EOD: '',

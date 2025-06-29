@@ -4,42 +4,74 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ViewInfoModalComponent, CallSheetRow } from '../view-info-modal/view-info-modal.component';
 
-interface DumpRow {
+interface DumpSheetRow {
   Dump_ID: number | null;
-  Lead_Source_Code: string;
-  Dumped_Date: string;
+  Parent_Name: string;
+  Student_Name: string;
+  Call_Date: string;
   Comments: string;
+  Lead_Source_Code: string;
+  EOD: string;
+  Status: string;
+  Contact: string;
+  Email: string;
   editing?: boolean;
   isNew?: boolean;
 }
 
+interface StatusOption {
+  value: string;
+  label: string;
+  class: string;
+}
+
 @Component({
-  selector: 'app-dump',
+  selector: 'app-dump-sheet',
   templateUrl: './dump-sheet.component.html',
   styleUrls: ['./dump-sheet.component.css'],
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ViewInfoModalComponent],
   standalone: true
 })
 export class DumpSheetComponent implements OnInit {
-  dumpSheetData: DumpRow[] = [];
+  dumpSheetData: DumpSheetRow[] = [];
   private apiUrl = 'http://localhost:3000/api/v1/dump';
   showViewInfoModal = false;
-  selectedRow: any = null;
+  selectedRow: CallSheetRow | null = null;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  eodOptions = [
+    { value: 'Keep - RNA', label: 'Keep - RNA' },
+    { value: 'Move to call later', label: 'Move to call later' },
+    { value: 'Move to dump', label: 'Move to dump' },
+    { value: 'Keep - Nurture', label: 'Keep - Nurture' }
+  ];
+
+  statusOptions: StatusOption[] = [
+    { value: 'Not Interested', label: 'Not Interested', class: 'status-not-interested' },
+    { value: 'Maybe', label: 'Maybe', class: 'status-maybe' },
+    { value: 'Interested', label: 'Interested', class: 'status-interested' },
+    { value: 'Very Interested', label: 'Very Interested', class: 'status-very-interested' },
+    { value: 'RNA', label: 'RNA', class: 'status-rna' },
+    { value: 'Contact Later', label: 'Contact Later', class: 'status-contact-later' }
+  ];
+
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.fetchData();
   }
 
   fetchData(): void {
-    this.http.get<DumpRow[]>(`${this.apiUrl}/display`).subscribe({
-      next: (data: DumpRow[]) => {
+    this.http.get<DumpSheetRow[]>(`${this.apiUrl}/display`).subscribe({
+      next: (data: DumpSheetRow[]) => {
         this.dumpSheetData = data.map(row => ({
           ...row,
           editing: false,
-          Dumped_Date: row.Dumped_Date ? new Date(row.Dumped_Date).toISOString().slice(0, 16) : ''
+          Call_Date: row.Call_Date ? new Date(row.Call_Date).toISOString().slice(0, 16) : ''
         }));
       },
       error: (error: HttpErrorResponse) => {
@@ -49,11 +81,17 @@ export class DumpSheetComponent implements OnInit {
   }
 
   addRow(): void {
-    const newRow: DumpRow = {
+    const newRow: DumpSheetRow = {
       Dump_ID: null,
-      Lead_Source_Code: '',
-      Dumped_Date: new Date().toISOString().slice(0, 16),
+      Parent_Name: '',
+      Student_Name: '',
+      Call_Date: new Date().toISOString().slice(0, 16),
       Comments: '',
+      Lead_Source_Code: '',
+      EOD: this.eodOptions[0].value,
+      Status: this.statusOptions[0].value,
+      Contact: '',
+      Email: '',
       editing: true,
       isNew: true
     };
@@ -66,11 +104,18 @@ export class DumpSheetComponent implements OnInit {
       alert('No rows to update or save.');
       return;
     }
+
     let hasError = false;
     let processedCount = 0;
+
     rowsToProcess.forEach(row => {
       if (row.isNew) {
-        this.http.post<DumpRow>(`${this.apiUrl}`, this.cleanRowForSave(row)).subscribe({
+        if (!row.Dump_ID) {
+          alert('Please provide a Dump ID for new entries.');
+          hasError = true;
+          return;
+        }
+        this.http.post<DumpSheetRow>(`${this.apiUrl}`, this.cleanRowForSave(row)).subscribe({
           next: () => {
             processedCount++;
             if (processedCount === rowsToProcess.length && !hasError) {
@@ -80,35 +125,51 @@ export class DumpSheetComponent implements OnInit {
           },
           error: (error: HttpErrorResponse) => {
             console.error('Error saving new row:', error);
-            alert('Error saving new row.');
+            alert(`Error saving new row for ID ${row.Dump_ID}. Please ensure the ID is unique and all required fields are filled if your database schema dictates them.`);
             hasError = true;
           }
         });
-      } else if (row.editing && row.Dump_ID) {
-        this.http.put<DumpRow>(`${this.apiUrl}/${row.Dump_ID}`, this.cleanRowForSave(row)).subscribe({
-          next: () => {
-            processedCount++;
-            if (processedCount === rowsToProcess.length && !hasError) {
-              alert('All new and edited rows processed successfully!');
-              this.fetchData();
+      } else if (row.editing) {
+        if (row.Dump_ID) {
+          this.http.put<DumpSheetRow>(`${this.apiUrl}/${row.Dump_ID}`, this.cleanRowForSave(row)).subscribe({
+            next: () => {
+              processedCount++;
+              if (processedCount === rowsToProcess.length && !hasError) {
+                alert('All new and edited rows processed successfully!');
+                this.fetchData();
+              }
+            },
+            error: (error: HttpErrorResponse) => {
+              console.error('Error updating row:', error);
+              alert(`Error updating row for ID ${row.Dump_ID}. Please try again.`);
+              hasError = true;
             }
-          },
-          error: (error: HttpErrorResponse) => {
-            console.error('Error updating row:', error);
-            alert('Error updating row.');
-            hasError = true;
-          }
-        });
+          });
+        }
       }
     });
   }
 
-  private cleanRowForSave(row: DumpRow): Partial<DumpRow> {
+  private cleanRowForSave(row: DumpSheetRow): Partial<DumpSheetRow> {
     const { editing, isNew, ...cleanedRow } = row;
     return cleanedRow;
   }
 
-  cancelAdd(row: DumpRow): void {
+  saveNewRow(row: DumpSheetRow): void {
+    if (!row.Parent_Name || !row.Student_Name) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    const { editing, isNew, ...rowToSave } = row;
+    this.http.post<DumpSheetRow>(`${this.apiUrl}`, rowToSave).subscribe({
+      next: () => {},
+      error: (error: HttpErrorResponse) => {
+        console.error('Error saving new row:', error);
+      }
+    });
+  }
+
+  cancelAdd(row: DumpSheetRow): void {
     if (row.isNew) {
       this.dumpSheetData = this.dumpSheetData.filter(r => r !== row);
     } else if (row.editing) {
@@ -126,11 +187,11 @@ export class DumpSheetComponent implements OnInit {
     if (idString) {
       const id = parseInt(idString, 10);
       if (!isNaN(id)) {
-        const exists = this.dumpSheetData.some((row: DumpRow) => row.Dump_ID === id);
+        const exists = this.dumpSheetData.some((row: DumpSheetRow) => row.Dump_ID === id);
         if (exists) {
           this.router.navigate(['/edit-dump', id]);
         } else {
-          alert('Dump ID not found! Please enter a valid ID from the table.');
+          alert('Dump ID not found! Please enter a valid Dump ID from the table.');
         }
       } else {
         alert('Invalid Dump ID. Please enter a number.');
@@ -138,25 +199,18 @@ export class DumpSheetComponent implements OnInit {
     }
   }
 
-  updateRow(row: DumpRow): void {
-    if (!row.Lead_Source_Code) {
+  updateRow(row: DumpSheetRow): void {
+    if (!row.Parent_Name || !row.Student_Name) {
       alert('Please fill in all required fields.');
       return;
     }
     const { editing, isNew, ...rowToUpdate } = row;
-    if (row.Dump_ID) {
-      this.http.put<DumpRow>(`${this.apiUrl}/${row.Dump_ID}`, rowToUpdate).subscribe({
-        next: () => {
-          alert('Entry updated successfully!');
-          row.editing = false;
-          this.fetchData();
-        },
-        error: (error: HttpErrorResponse) => {
-          console.error('Error updating entry:', error);
-          alert('Error updating entry. Please try again.');
-        }
-      });
-    }
+    this.http.put<DumpSheetRow>(`${this.apiUrl}/${row.Dump_ID}`, rowToUpdate).subscribe({
+      next: () => {},
+      error: (error: HttpErrorResponse) => {
+        console.error('Error updating row:', error);
+      }
+    });
   }
 
   deleteRow(id: number | null): void {
@@ -164,14 +218,64 @@ export class DumpSheetComponent implements OnInit {
     if (confirm('Are you sure you want to delete this entry?')) {
       this.http.delete(`${this.apiUrl}/${id}`).subscribe({
         next: () => {
-          alert('Entry deleted successfully!');
           this.fetchData();
         },
         error: (error: HttpErrorResponse) => {
-          console.error('Error deleting entry:', error);
-          alert('Error deleting entry. Please try again.');
+          console.error('Error deleting row:', error);
+          alert('Error deleting data. Please try again.');
         }
       });
+    }
+  }
+
+  getStatusClass(status: string): string {
+    const found = this.statusOptions.find((opt: StatusOption) => opt.value === status);
+    return found ? found.class : '';
+  }
+
+  showViewInfo(): void {
+    const idString = prompt('Please enter the Dump ID to view:');
+    if (idString) {
+      const id = parseInt(idString, 10);
+      if (!isNaN(id)) {
+        this.http.get<DumpSheetRow>(`${this.apiUrl}/${id}`).subscribe({
+          next: (data: DumpSheetRow) => {
+            this.selectedRow = { ...data, Recruitment_Data_ID: data.Dump_ID } as CallSheetRow;
+            this.showViewInfoModal = true;
+          },
+          error: (error: HttpErrorResponse) => {
+            if (error.status === 404) {
+              alert('Dump ID not found!');
+            } else {
+              alert('Error fetching data. Please try again.');
+            }
+          }
+        });
+      } else {
+        alert('Invalid Dump ID. Please enter a number.');
+      }
+    }
+  }
+
+  closeViewInfoModal(): void {
+    this.showViewInfoModal = false;
+    this.selectedRow = null;
+  }
+
+  deleteEntry(): void {
+    const idString = prompt('Please enter the Dump ID to delete:');
+    if (idString) {
+      const id = parseInt(idString, 10);
+      if (!isNaN(id)) {
+        const exists = this.dumpSheetData.some((row: DumpSheetRow) => row.Dump_ID === id);
+        if (exists) {
+          this.deleteRow(id);
+        } else {
+          alert('Dump ID not found! Please enter a valid Dump ID from the table.');
+        }
+      } else {
+        alert('Invalid Dump ID. Please enter a number.');
+      }
     }
   }
 }

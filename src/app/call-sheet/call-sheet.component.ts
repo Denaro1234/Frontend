@@ -9,7 +9,7 @@ interface CallSheetRow {
   Recruitment_Data_ID: number | null;
   Parent_Name: string;
   Student_Name: string;
-  Contact_Date: string;
+  Call_Date: string;
   Comments: string;
   Lead_Source_Code: string;
   EOD: string;
@@ -77,7 +77,7 @@ export class CallSheetComponent implements OnInit {
           return {
             ...row,
             editing: false,
-            Contact_Date: row.Contact_Date ? new Date(row.Contact_Date).toISOString().slice(0, 16) : ''
+            Call_Date: row.Call_Date ? new Date(row.Call_Date).toISOString().slice(0, 16) : ''
           };
         });
         console.log('Processed callSheetData:', this.callSheetData);
@@ -93,7 +93,7 @@ export class CallSheetComponent implements OnInit {
       Recruitment_Data_ID: null,
       Parent_Name: '',
       Student_Name: '',
-      Contact_Date: new Date().toISOString().slice(0, 16),
+      Call_Date: new Date().toISOString().slice(0, 16),
       Comments: '',
       Lead_Source_Code: '',
       EOD: this.eodOptions[0].value,
@@ -215,7 +215,7 @@ export class CallSheetComponent implements OnInit {
       if (!isNaN(id)) {
         const exists = this.callSheetData.some((row: CallSheetRow) => row.Recruitment_Data_ID === id);
         if (exists) {
-          this.router.navigate(['/edit-student', id]);
+          this.router.navigate(['/edit-calls', id]);
         } else {
           alert('Recruitment ID not found! Please enter a valid Recruitment ID from the table.');
         }
@@ -344,5 +344,72 @@ export class CallSheetComponent implements OnInit {
   closeViewInfoModal(): void {
     this.showViewInfoModal = false;
     this.selectedRow = null;
+  }
+
+  deleteEntry(): void {
+    const idString = prompt('Please enter the Recruitment ID to delete:');
+    if (idString) {
+      const id = parseInt(idString, 10);
+      if (!isNaN(id)) {
+        const exists = this.callSheetData.some((row: CallSheetRow) => row.Recruitment_Data_ID === id);
+        if (exists) {
+          this.deleteRow(id);
+        } else {
+          alert('Recruitment ID not found! Please enter a valid Recruitment ID from the table.');
+        }
+      } else {
+        alert('Invalid Recruitment ID. Please enter a number.');
+      }
+    }
+  }
+
+  moveToCallLater(): void {
+    const idString = prompt('Enter the Recruitment ID to move to Call Later:');
+    if (!idString) return;
+    const id = parseInt(idString, 10);
+    if (isNaN(id)) {
+      alert('Invalid Recruitment ID. Please enter a number.');
+      return;
+    }
+    this.http.post(`${this.apiUrl}/move1/${id}`, {}).subscribe({
+      next: (res: any) => {
+        if (res && res.success) {
+          alert('Moved to Call Later successfully!');
+          this.fetchData();
+        } else {
+          alert(res && res.message ? res.message : 'Failed to move to Call Later.');
+        }
+      },
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 404) {
+          alert('Recruitment ID not found!');
+        } else {
+          alert('Error moving to Call Later.');
+        }
+      }
+    });
+  }
+
+  moveToDump(): void {
+    const idString = prompt('Enter the Recruitment ID to move to Dump:');
+    if (!idString) return;
+    const id = parseInt(idString, 10);
+    if (isNaN(id)) {
+      alert('Invalid Recruitment ID. Please enter a number.');
+      return;
+    }
+    this.http.post(`${this.apiUrl}/move2/${id}`, {}).subscribe({
+      next: () => {
+        alert('Moved to Dump successfully!');
+        this.fetchData();
+      },
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 404) {
+          alert('Recruitment ID not found!');
+        } else {
+          alert('Error moving to Dump.');
+        }
+      }
+    });
   }
 }

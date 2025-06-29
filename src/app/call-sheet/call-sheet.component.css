@@ -101,40 +101,56 @@ h1 {
 }
 
 .btn-primary {
-  background: #0066ff;
-  color: #ffffff;
+  background: #6f1d1b; /* Dark Red */
+  color: #fff;
 }
 
 .btn-primary:hover {
-  background: #0052cc;
+  background: #a4131b;
 }
 
 .btn-secondary {
-  background: #f0f7ff;
-  color: #0066ff;
+  background: #b85c00; /* Dark Orange */
+  color: #fff;
 }
 
 .btn-secondary:hover {
-  background: #e5f0ff;
+  background: #ff8800;
 }
 
 .btn-info {
-  background-color: #17a2b8;
-  border-color: #17a2b8;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  background: #b59f3b; /* Dark Yellow/Gold */
+  color: #fff;
 }
 
 .btn-info:hover {
-  background-color: #138496;
-  border-color: #138496;
+  background: #e1c340;
+}
+
+.btn-success {
+  background: #14532d; /* Dark Green */
+  color: #fff;
+}
+.btn-success:hover {
+  background: #197a43;
+}
+
+.btn-warning {
+  background: #1e3a5c; /* Dark Blue */
+  color: #fff;
+}
+
+.btn-warning:hover {
+  background: #2563eb;
+}
+
+.btn-dark {
+  background: #3b185f; /* Dark Indigo/Violet */
+  color: #fff;
+}
+
+.btn-dark:hover {
+  background: #5f27cd;
 }
 
 .btn-info:disabled {
@@ -157,11 +173,11 @@ h1 {
 }
 
 .table {
-  width: 100% !important; /* Force width */
-  border-collapse: separate;
-  border-spacing: 0;
-  min-width: 0 !important; /* Explicitly set min-width to 0 */
-  table-layout: fixed; /* Keep table-layout fixed */
+  width: 100% !important;
+  border-collapse: collapse;
+  background: #fff; /* Light background */
+  color: #222; /* Dark text */
+  table-layout: fixed;
 }
 
 .table th:nth-child(1),
@@ -194,27 +210,33 @@ h1 {
 .table th:nth-child(10),
 .table td:nth-child(10) { width: auto; }  /* Email */
 
-.table th {
-  background: #f8f9fa;
-  padding: 1rem;
-  font-weight: 600;
-  color: #333;
-  text-align: center;
-  border-bottom: 1px solid #e0e0e0;
-  white-space: normal; /* Allow text to wrap in headers */
-}
-
-.table td {
-  padding: 1rem;
-  border-bottom: 1px solid #e0e0e0;
-  color: #333;
+.table th, .table td {
   text-align: center;
   vertical-align: middle;
-  white-space: normal; /* Ensure text wraps in data cells */
+  padding: 1rem;
+  border: none; /* No borders */
+}
+
+.table th {
+  background: #f8f9fa; /* Subtle light gray for headers */
+  color: #333;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.table tbody tr {
+  background: #fff;
+  transition: background 0.2s;
 }
 
 .table tbody tr:hover {
-  background: #f8f9fa;
+  background: #f0f2f5;
+}
+
+.table-container {
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .form-control {
@@ -331,4 +353,13 @@ select.form-control {
 
 .status-contact-later {
   color: #fd7e14;
+}
+
+.btn-danger {
+  background: #8b0000; /* Dark Red */
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background: #b22222;
 }

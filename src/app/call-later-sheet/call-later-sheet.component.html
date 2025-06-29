@@ -8,97 +8,84 @@
       <button class="btn btn-secondary" (click)="navigateToEdit()">
         <i class="fas fa-edit"></i> Edit Entry
       </button>
+      <button class="btn btn-info" (click)="showViewInfo()" [disabled]="!callLaterData.length">
+        <i class="fas fa-info-circle"></i> View Info
+      </button>
       <button class="btn btn-success" (click)="updateAllEditedRows()">
         <i class="fas fa-sync-alt"></i> Update
+      </button>
+      <button class="btn btn-danger" (click)="deleteEntry()">
+        <i class="fas fa-trash"></i> Delete Entry
       </button>
     </div>
   </div>
   <div class="card">
-    <div class="table-responsive">
+    <div class="table-container">
       <table class="table">
         <thead>
           <tr>
-            <th class="text-center">ID</th>
-            <th class="text-center">Parent Name</th>
-            <th class="text-center">Student Name</th>
-            <th class="text-center">Contact</th>
-            <th class="text-center">Email</th>
-            <th class="text-center">Comments</th>
-            <th class="text-center">Lead Source</th>
-            <th class="text-center">Status</th>
-            <th class="text-center">EOD</th>
-            <th class="text-center">Call Date</th>
-            <th class="text-center">Actions</th>
+            <th class="text-center" style="width: 8%">ID</th>
+            <th class="text-center" style="width: 12%">Parent Name</th>
+            <th class="text-center" style="width: 12%">Student Name</th>
+            <th class="text-center" style="width: auto;">Comments</th>
+            <th class="text-center" style="width: auto;">Lead Source</th>
+            <th class="text-center" style="width: 8%">EOD</th>
+            <th class="text-center" style="width: 8%">Status</th>
+            <th class="text-center" style="width: auto;">Contact</th>
+            <th class="text-center" style="width: auto;">Email</th>
+            <th class="text-center" style="width: 11%">Call Date</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let row of callLaterData; let i = index" [class.editing]="row.editing || row.isNew">
-            <td class="text-center">{{row.Call_Later_Data_ID || 'New'}}</td>
             <td class="text-center">
-              <input *ngIf="row.editing || row.isNew" type="text" class="form-control text-center" [(ngModel)]="row.Parent_Name">
+              <ng-container *ngIf="!row.editing && !row.isNew">{{row.Call_Later_Data_ID}}</ng-container>
+              <input *ngIf="row.isNew" type="number" class="form-control text-center" [(ngModel)]="row.Call_Later_Data_ID" placeholder="New ID">
+              <span *ngIf="row.editing && !row.isNew">{{row.Call_Later_Data_ID}}</span>
+            </td>
+            <td class="text-center">
               <ng-container *ngIf="!row.editing && !row.isNew">{{row.Parent_Name}}</ng-container>
+              <input *ngIf="row.editing || row.isNew" type="text" class="form-control text-center" [(ngModel)]="row.Parent_Name">
             </td>
             <td class="text-center">
-              <input *ngIf="row.editing || row.isNew" type="text" class="form-control text-center" [(ngModel)]="row.Student_Name">
               <ng-container *ngIf="!row.editing && !row.isNew">{{row.Student_Name}}</ng-container>
+              <input *ngIf="row.editing || row.isNew" type="text" class="form-control text-center" [(ngModel)]="row.Student_Name">
             </td>
             <td class="text-center">
-              <input *ngIf="row.editing || row.isNew" type="text" class="form-control text-center" [(ngModel)]="row.Contact">
-              <ng-container *ngIf="!row.editing && !row.isNew">{{row.Contact}}</ng-container>
-            </td>
-            <td class="text-center">
-              <input *ngIf="row.editing || row.isNew" type="email" class="form-control text-center" [(ngModel)]="row.Email">
-              <ng-container *ngIf="!row.editing && !row.isNew">{{row.Email}}</ng-container>
-            </td>
-            <td class="text-center">
-              <input *ngIf="row.editing || row.isNew" type="text" class="form-control text-center" [(ngModel)]="row.Comments">
               <ng-container *ngIf="!row.editing && !row.isNew">{{row.Comments}}</ng-container>
+              <input *ngIf="row.editing || row.isNew" type="text" class="form-control text-center" [(ngModel)]="row.Comments">
             </td>
             <td class="text-center">
-              <input *ngIf="row.editing || row.isNew" type="text" class="form-control text-center" [(ngModel)]="row.Lead_Source_Code">
               <ng-container *ngIf="!row.editing && !row.isNew">{{row.Lead_Source_Code}}</ng-container>
+              <input *ngIf="row.editing || row.isNew" type="text" class="form-control text-center" [(ngModel)]="row.Lead_Source_Code">
             </td>
             <td class="text-center">
-              <input *ngIf="row.editing || row.isNew" type="text" class="form-control text-center" [(ngModel)]="row.Status">
-              <ng-container *ngIf="!row.editing && !row.isNew">{{row.Status}}</ng-container>
-            </td>
-            <td class="text-center">
-              <input *ngIf="row.editing || row.isNew" type="text" class="form-control text-center" [(ngModel)]="row.EOD">
               <ng-container *ngIf="!row.editing && !row.isNew">{{row.EOD}}</ng-container>
+              <select *ngIf="row.editing || row.isNew" class="form-control text-center" [(ngModel)]="row.EOD">
+                <option *ngFor="let option of eodOptions" [value]="option.value">{{option.label}}</option>
+              </select>
             </td>
             <td class="text-center">
-              <input *ngIf="row.editing || row.isNew" type="datetime-local" class="form-control text-center" [(ngModel)]="row.Call_Date">
-              <ng-container *ngIf="!row.editing && !row.isNew">{{row.Call_Date | date:'short'}}</ng-container>
+              <ng-container *ngIf="!row.editing && !row.isNew">{{row.Status}}</ng-container>
+              <select *ngIf="row.editing || row.isNew" class="form-control text-center" [(ngModel)]="row.Status">
+                <option *ngFor="let option of statusOptions" [value]="option.value" [ngClass]="option.class">{{option.label}}</option>
+              </select>
             </td>
-            <td class="text-center actions">
-              <ng-container *ngIf="row.isNew">
-                <button class="btn btn-icon text-success" (click)="updateRow(row)" title="Save">
-                  <i class="fas fa-check"></i>
-                </button>
-                <button class="btn btn-icon text-danger" (click)="cancelAdd(row)" title="Cancel">
-                  <i class="fas fa-times"></i>
-                </button>
-              </ng-container>
-              <ng-container *ngIf="!row.isNew && !row.editing">
-                <button class="btn btn-icon text-info" (click)="editRow(i)" title="Edit">
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button class="btn btn-icon text-danger" (click)="deleteRow(row.Call_Later_Data_ID)" title="Delete">
-                  <i class="fas fa-trash"></i>
-                </button>
-              </ng-container>
-              <ng-container *ngIf="!row.isNew && row.editing">
-                <button class="btn btn-icon text-success" (click)="updateRow(row)" title="Save">
-                  <i class="fas fa-check"></i>
-                </button>
-                <button class="btn btn-icon text-danger" (click)="cancelAdd(row)" title="Cancel">
-                  <i class="fas fa-times"></i>
-                </button>
-              </ng-container>
+            <td class="text-center">
+              <ng-container *ngIf="!row.editing && !row.isNew">{{row.Contact}}</ng-container>
+              <input *ngIf="row.editing || row.isNew" type="text" class="form-control text-center" [(ngModel)]="row.Contact">
+            </td>
+            <td class="text-center">
+              <ng-container *ngIf="!row.editing && !row.isNew">{{row.Email}}</ng-container>
+              <input *ngIf="row.editing || row.isNew" type="email" class="form-control text-center" [(ngModel)]="row.Email">
+            </td>
+            <td class="text-center">
+              <ng-container *ngIf="!row.editing && !row.isNew">{{row.Call_Date | date:'short'}}</ng-container>
+              <input *ngIf="row.editing || row.isNew" type="datetime-local" class="form-control text-center" [(ngModel)]="row.Call_Date">
             </td>
           </tr>
           <tr *ngIf="callLaterData.length === 0">
-            <td colspan="11" class="text-center py-4">
+            <td colspan="10" class="text-center py-4">
               <div class="empty-state">
                 <i class="fas fa-inbox fa-3x"></i>
                 <p>No entries found</p>

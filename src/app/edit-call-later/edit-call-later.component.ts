@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 interface CallLaterRow {
@@ -19,10 +18,10 @@ interface CallLaterRow {
 
 @Component({
   selector: 'app-edit-call-later',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './edit-call-later.component.html',
-  styleUrls: ['./edit-call-later.component.css']
+  styleUrls: ['./edit-call-later.component.css'],
+  standalone: true,
+  imports: [FormsModule]
 })
 export class EditCallLaterComponent implements OnInit {
   row: CallLaterRow = {

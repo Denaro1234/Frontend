@@ -14,6 +14,15 @@
       <button class="btn btn-success" (click)="updateAllEditedRows()">
         <i class="fas fa-sync-alt"></i> Update
       </button>
+      <button class="btn btn-danger" (click)="deleteEntry()">
+        <i class="fas fa-trash"></i> Delete Entry
+      </button>
+      <button class="btn btn-warning" (click)="moveToCallLater()">
+        <i class="fas fa-clock"></i> Move to Call Later
+      </button>
+      <button class="btn btn-dark" (click)="moveToDump()">
+        <i class="fas fa-dumpster"></i> Move to Dump
+      </button>
     </div>
   </div>
   <div class="card">
@@ -49,8 +58,8 @@
               <input *ngIf="row.editing || row.isNew" type="text" class="form-control text-center" [(ngModel)]="row.Student_Name">
             </td>
             <td class="text-center">
-              <ng-container *ngIf="!row.editing && !row.isNew">{{row.Contact_Date | date:'short'}}</ng-container>
-              <input *ngIf="row.editing || row.isNew" type="datetime-local" class="form-control text-center" [(ngModel)]="row.Contact_Date">
+              <ng-container *ngIf="!row.editing && !row.isNew">{{row.Call_Date | date:'short'}}</ng-container>
+              <input *ngIf="row.editing || row.isNew" type="datetime-local" class="form-control text-center" [(ngModel)]="row.Call_Date">
             </td>
             <td class="text-center">
               <ng-container *ngIf="!row.editing && !row.isNew">{{row.Comments}}</ng-container>

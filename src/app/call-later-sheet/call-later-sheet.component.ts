@@ -3,18 +3,18 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ViewInfoModalComponent } from '../view-info-modal/view-info-modal.component';
+import { ViewInfoModalComponent, CallSheetRow } from '../view-info-modal/view-info-modal.component';
 
 interface CallLaterRow {
   Call_Later_Data_ID: number | null;
   Parent_Name: string;
   Student_Name: string;
-  Contact: string;
-  Email: string;
   Comments: string;
   Lead_Source_Code: string;
-  Status: string;
+  Contact: string;
   EOD: string;
+  Status: string;
+  Email: string;
   Call_Date: string;
   editing?: boolean;
   isNew?: boolean;
@@ -35,9 +35,9 @@ interface StatusOption {
 })
 export class CallLaterSheetComponent implements OnInit {
   callLaterData: CallLaterRow[] = [];
-  private apiUrl = 'http://localhost:3000/api/v1/call-later';
+  private apiUrl = 'http://localhost:3000/api/v1/call_later';
   showViewInfoModal = false;
-  selectedRow: any = null;
+  selectedRow: CallSheetRow | null = null;
 
   eodOptions = [
     { value: 'Keep - RNA', label: 'Keep - RNA' },
@@ -91,12 +91,12 @@ export class CallLaterSheetComponent implements OnInit {
       Call_Later_Data_ID: null,
       Parent_Name: '',
       Student_Name: '',
-      Contact: '',
-      Email: '',
       Comments: '',
       Lead_Source_Code: '',
-      Status: '',
-      EOD: '',
+      Contact: '',
+      EOD: this.eodOptions[0].value,
+      Status: this.statusOptions[0].value,
+      Email: '',
       Call_Date: new Date().toISOString().slice(0, 16),
       editing: true,
       isNew: true
@@ -114,6 +114,11 @@ export class CallLaterSheetComponent implements OnInit {
     let processedCount = 0;
     rowsToProcess.forEach(row => {
       if (row.isNew) {
+        if (!row.Call_Later_Data_ID) {
+          alert('Please provide a Call Later ID for new entries.');
+          hasError = true;
+          return;
+        }
         this.http.post<CallLaterRow>(`${this.apiUrl}`, this.cleanRowForSave(row)).subscribe({
           next: () => {
             processedCount++;
@@ -124,25 +129,27 @@ export class CallLaterSheetComponent implements OnInit {
           },
           error: (error: HttpErrorResponse) => {
             console.error('Error saving new row:', error);
-            alert('Error saving new row.');
+            alert(`Error saving new row for ID ${row.Call_Later_Data_ID}. Please ensure the ID is unique and all required fields are filled if your database schema dictates them.`);
             hasError = true;
           }
         });
-      } else if (row.editing && row.Call_Later_Data_ID) {
-        this.http.put<CallLaterRow>(`${this.apiUrl}/${row.Call_Later_Data_ID}`, this.cleanRowForSave(row)).subscribe({
-          next: () => {
-            processedCount++;
-            if (processedCount === rowsToProcess.length && !hasError) {
-              alert('All new and edited rows processed successfully!');
-              this.fetchData();
+      } else if (row.editing) {
+        if (row.Call_Later_Data_ID) {
+          this.http.put<CallLaterRow>(`${this.apiUrl}/${row.Call_Later_Data_ID}`, this.cleanRowForSave(row)).subscribe({
+            next: () => {
+              processedCount++;
+              if (processedCount === rowsToProcess.length && !hasError) {
+                alert('All new and edited rows processed successfully!');
+                this.fetchData();
+              }
+            },
+            error: (error: HttpErrorResponse) => {
+              console.error('Error updating row:', error);
+              alert(`Error updating row for ID ${row.Call_Later_Data_ID}. Please try again.`);
+              hasError = true;
             }
-          },
-          error: (error: HttpErrorResponse) => {
-            console.error('Error updating row:', error);
-            alert('Error updating row.');
-            hasError = true;
-          }
-        });
+          });
+        }
       }
     });
   }
@@ -150,6 +157,20 @@ export class CallLaterSheetComponent implements OnInit {
   private cleanRowForSave(row: CallLaterRow): Partial<CallLaterRow> {
     const { editing, isNew, ...cleanedRow } = row;
     return cleanedRow;
+  }
+
+  saveNewRow(row: CallLaterRow): void {
+    if (!row.Parent_Name || !row.Student_Name) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    const { editing, isNew, ...rowToSave } = row;
+    this.http.post<CallLaterRow>(`${this.apiUrl}`, rowToSave).subscribe({
+      next: () => {},
+      error: (error: HttpErrorResponse) => {
+        console.error('Error saving new row:', error);
+      }
+    });
   }
 
   cancelAdd(row: CallLaterRow): void {
@@ -193,18 +214,7 @@ export class CallLaterSheetComponent implements OnInit {
       if (!isNaN(id)) {
         this.http.get<CallLaterRow>(`${this.apiUrl}/${id}`).subscribe({
           next: (data: CallLaterRow) => {
-            this.selectedRow = {
-              Recruitment_Data_ID: data.Call_Later_Data_ID,
-              Parent_Name: data.Parent_Name,
-              Student_Name: data.Student_Name,
-              Contact_Date: data.Call_Date,
-              Comments: data.Comments,
-              Lead_Source_Code: data.Lead_Source_Code,
-              EOD: data.EOD,
-              Status: data.Status,
-              Contact: data.Contact,
-              Email: data.Email,
-            };
+            this.selectedRow = { ...data, Recruitment_Data_ID: data.Call_Later_Data_ID, Call_Date: data.Call_Date } as CallSheetRow;
             this.showViewInfoModal = true;
           },
           error: (error: HttpErrorResponse) => {
@@ -236,7 +246,7 @@ export class CallLaterSheetComponent implements OnInit {
         if (exists) {
           this.router.navigate(['/edit-call-later', id]);
         } else {
-          alert('Call Later ID not found! Please enter a valid ID from the table.');
+          alert('Call Later ID not found! Please enter a valid Call Later ID from the table.');
         }
       } else {
         alert('Invalid Call Later ID. Please enter a number.');
@@ -245,28 +255,33 @@ export class CallLaterSheetComponent implements OnInit {
   }
 
   updateRow(row: CallLaterRow): void {
-    if (row.isNew) {
-      this.http.post<CallLaterRow>(`${this.apiUrl}`, this.cleanRowForSave(row)).subscribe({
-        next: () => {
-          alert('Row added successfully!');
-          this.fetchData();
-        },
-        error: (error: HttpErrorResponse) => {
-          console.error('Error saving new row:', error);
-          alert('Error saving new row.');
+    if (!row.Parent_Name || !row.Student_Name) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    const { editing, isNew, ...rowToUpdate } = row;
+    this.http.put<CallLaterRow>(`${this.apiUrl}/${row.Call_Later_Data_ID}`, rowToUpdate).subscribe({
+      next: () => {},
+      error: (error: HttpErrorResponse) => {
+        console.error('Error updating row:', error);
+      }
+    });
+  }
+
+  deleteEntry(): void {
+    const idString = prompt('Please enter the Call Later ID to delete:');
+    if (idString) {
+      const id = parseInt(idString, 10);
+      if (!isNaN(id)) {
+        const exists = this.callLaterData.some((row: CallLaterRow) => row.Call_Later_Data_ID === id);
+        if (exists) {
+          this.deleteRow(id);
+        } else {
+          alert('Call Later ID not found! Please enter a valid Call Later ID from the table.');
         }
-      });
-    } else if (row.editing && row.Call_Later_Data_ID) {
-      this.http.put<CallLaterRow>(`${this.apiUrl}/${row.Call_Later_Data_ID}`, this.cleanRowForSave(row)).subscribe({
-        next: () => {
-          alert('Row updated successfully!');
-          this.fetchData();
-        },
-        error: (error: HttpErrorResponse) => {
-          console.error('Error updating row:', error);
-          alert('Error updating row.');
-        }
-      });
+      } else {
+        alert('Invalid Call Later ID. Please enter a number.');
+      }
     }
   }
 }

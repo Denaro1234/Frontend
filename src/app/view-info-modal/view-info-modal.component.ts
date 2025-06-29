@@ -5,7 +5,7 @@ export interface CallSheetRow {
   Recruitment_Data_ID: number | null;
   Parent_Name: string;
   Student_Name: string;
-  Contact_Date: string;
+  Call_Date: string;
   Comments: string;
   Lead_Source_Code: string;
   EOD: string;
@@ -41,7 +41,7 @@ export interface CallSheetRow {
             </div>
             <div class="info-item">
               <label>Contact Date</label>
-              <div>{{data.Contact_Date | date:'medium'}}</div>
+              <div>{{data.Call_Date | date:'medium'}}</div>
             </div>
             <div class="info-item">
               <label>Comments</label>
