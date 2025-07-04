@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ViewInfoModalComponent, CallSheetRow } from '../view-info-modal/view-info-modal.component';
 
 interface StudentDisplay {
   Index_Number: number | null;
@@ -20,11 +21,13 @@ interface StudentDisplay {
   selector: 'app-students',
   templateUrl: './students.component.html',
   styleUrls: ['./students.component.css'],
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ViewInfoModalComponent],
   standalone: true
 })
 export class StudentsComponent implements OnInit {
   studentsData: StudentDisplay[] = [];
+  showViewInfoModal = false;
+  selectedRow: CallSheetRow | null = null;
 
   constructor(
     private http: HttpClient,
@@ -153,5 +156,68 @@ export class StudentsComponent implements OnInit {
 
   goToAddStudent(): void {
     this.router.navigate(['/add-student']);
+  }
+
+  showViewInfo(): void {
+    const idString = prompt('Please enter the student ID to view:');
+    if (idString) {
+      const id = parseInt(idString, 10);
+      if (!isNaN(id)) {
+        this.http.get<any>(`https://backenddeployment-production-3dd5.up.railway.app/api/v1/students/${id}`).subscribe({
+          next: (data: any) => {
+            this.selectedRow = {
+              Recruitment_Data_ID: data.Index_Number,
+              Parent_Name: data.Parent_Name || '',
+              Student_Name: data.First_Name + ' ' + (data.Middle_Name || '') + ' ' + data.Last_Name,
+              Call_Date: data.Date_Of_Birth,
+              Comments: data.Comments || '',
+              Lead_Source_Code: data.Lead_Source_Code || '',
+              EOD: data.EOD || '',
+              Status: data.Status || '',
+              Contact: data.Phone || '',
+              Email: data.Email || ''
+            };
+            this.showViewInfoModal = true;
+          },
+          error: (error: HttpErrorResponse) => {
+            if (error.status === 404) {
+              alert('Student ID not found!');
+            } else {
+              alert('Error fetching data. Please try again.');
+            }
+          }
+        });
+      } else {
+        alert('Invalid student ID. Please enter a number.');
+      }
+    }
+  }
+
+  closeViewInfoModal(): void {
+    this.showViewInfoModal = false;
+    this.selectedRow = null;
+  }
+
+  deleteEntry(): void {
+    const idString = prompt('Please enter the student ID to delete:');
+    if (idString) {
+      const id = parseInt(idString, 10);
+      if (!isNaN(id)) {
+        if (confirm('Are you sure you want to delete this entry?')) {
+          this.http.patch(`https://backenddeployment-production-3dd5.up.railway.app/api/v1/students/${id}`, { Updated_By: 'System' }).subscribe({
+            next: () => {
+              alert('Student deleted successfully!');
+              this.fetchData();
+            },
+            error: (error: HttpErrorResponse) => {
+              console.error('Error deleting student:', error);
+              alert('Error deleting student. Please try again.');
+            }
+          });
+        }
+      } else {
+        alert('Invalid student ID. Please enter a number.');
+      }
+    }
   }
 } 

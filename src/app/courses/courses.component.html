@@ -2,13 +2,17 @@
   <div class="page-header">
     <h1>Courses</h1>
     <div class="header-actions">
-      <button class="btn btn-secondary" (click)="navigateToEditCourseById()">
-        <i class="fas fa-edit"></i>
-        Edit Course
+      <button class="btn btn-primary" (click)="addRow()">
+        <i class="fas fa-plus"></i> Add Entry
       </button>
-      <button class="btn btn-primary" (click)="goToAddCourse()">
-        <i class="fas fa-plus"></i>
-        Add Course
+      <button class="btn btn-secondary" (click)="navigateToEditCourseById()">
+        <i class="fas fa-edit"></i> Edit Course
+      </button>
+      <button class="btn btn-info" (click)="showViewInfo()" [disabled]="!courses.length">
+        <i class="fas fa-info-circle"></i> View Info
+      </button>
+      <button class="btn btn-danger" (click)="deleteEntry()">
+        <i class="fas fa-trash"></i> Delete Entry
       </button>
     </div>
   </div>
@@ -37,7 +41,6 @@
           <th>Head ID</th>
           <th>Lab ID</th>
           <th>Clan</th>
-          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -48,16 +51,6 @@
           <td>{{ course.Instructor_Head_ID }}</td>
           <td>{{ course.Instructor_Lab_ID }}</td>
           <td>{{ course.Clan }}</td>
-          <td>
-            <button class="btn btn-info btn-sm" (click)="goToEditCourse(course.Course_ID)">
-              <i class="fas fa-edit"></i>
-              Edit
-            </button>
-            <button class="btn btn-danger btn-sm" (click)="deleteCourse(course.Course_ID)">
-              <i class="fas fa-trash"></i>
-              Delete
-            </button>
-          </td>
         </tr>
         <tr *ngIf="courses.length === 0">
           <td colspan="7" class="empty-state">
@@ -72,4 +65,10 @@
       </tbody>
     </table>
   </div>
+
+  <app-view-info-modal
+    *ngIf="showViewInfoModal && selectedRow"
+    [data]="selectedRow"
+    (close)="closeViewInfoModal()"
+  ></app-view-info-modal>
 </div> 

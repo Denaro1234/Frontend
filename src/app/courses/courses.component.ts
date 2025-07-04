@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ViewInfoModalComponent, CallSheetRow } from '../view-info-modal/view-info-modal.component';
 
 interface Course {
   Course_ID: number;
@@ -15,7 +16,7 @@ interface Course {
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ViewInfoModalComponent],
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.css']
 })
@@ -23,6 +24,8 @@ export class CoursesComponent implements OnInit {
   courses: Course[] = [];
   loading = false;
   error: string | null = null;
+  showViewInfoModal = false;
+  selectedRow: CallSheetRow | null = null;
 
   constructor(
     private http: HttpClient,
@@ -86,6 +89,81 @@ export class CoursesComponent implements OnInit {
           alert('Error deleting course. Please try again.');
         }
       });
+    }
+  }
+
+  addRow(): void {
+    const newRow: Course = {
+      Course_ID: 0,
+      Course_Name: '',
+      Course_Description: '',
+      Instructor_Head_ID: 0,
+      Instructor_Lab_ID: 0,
+      Clan: '',
+    };
+    this.courses.unshift(newRow);
+  }
+
+  showViewInfo(): void {
+    const idString = prompt('Please enter the Course ID to view:');
+    if (idString) {
+      const id = parseInt(idString, 10);
+      if (!isNaN(id)) {
+        this.http.get<any>(`https://backenddeployment-production-3dd5.up.railway.app/api/v1/courses/${id}`).subscribe({
+          next: (data: any) => {
+            this.selectedRow = {
+              Recruitment_Data_ID: data.Course_ID,
+              Parent_Name: data.Instructor_Head_ID ? 'Head: ' + data.Instructor_Head_ID : '',
+              Student_Name: data.Course_Name,
+              Call_Date: '',
+              Comments: data.Course_Description || '',
+              Lead_Source_Code: '',
+              EOD: '',
+              Status: data.Class_Status || '',
+              Contact: data.Instructor_Lab_ID ? 'Lab: ' + data.Instructor_Lab_ID : '',
+              Email: ''
+            };
+            this.showViewInfoModal = true;
+          },
+          error: (error: HttpErrorResponse) => {
+            if (error.status === 404) {
+              alert('Course ID not found!');
+            } else {
+              alert('Error fetching data. Please try again.');
+            }
+          }
+        });
+      } else {
+        alert('Invalid Course ID. Please enter a number.');
+      }
+    }
+  }
+
+  closeViewInfoModal(): void {
+    this.showViewInfoModal = false;
+    this.selectedRow = null;
+  }
+
+  deleteEntry(): void {
+    const idString = prompt('Please enter the Course ID to delete:');
+    if (idString) {
+      const id = parseInt(idString, 10);
+      if (!isNaN(id)) {
+        if (confirm('Are you sure you want to delete this entry?')) {
+          this.http.patch(`https://backenddeployment-production-3dd5.up.railway.app/api/v1/courses/${id}`, { Class_Status: '0' }).subscribe({
+            next: () => {
+              alert('Course deleted successfully!');
+              this.fetchData();
+            },
+            error: (error: HttpErrorResponse) => {
+              console.error('Error deleting course:', error);
+              alert('Error deleting course. Please try again.');
+            }
+          });
+        }
+      } else {
+        alert('Invalid Course ID. Please enter a number.');
+      }
     }
   }
 } 

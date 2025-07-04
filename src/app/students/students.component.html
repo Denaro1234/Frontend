@@ -12,13 +12,17 @@
       </div>
     </div>
     <div class="header-actions">
-      <button class="btn btn-secondary" (click)="navigateToEdit()">
-        <i class="fas fa-edit"></i>
-        Edit Row
+      <button class="btn btn-primary" (click)="addRow()">
+        <i class="fas fa-plus"></i> Add Entry
       </button>
-      <button class="btn btn-primary" (click)="goToAddStudent()">
-        <i class="fas fa-plus"></i>
-        Add Student
+      <button class="btn btn-secondary" (click)="navigateToEdit()">
+        <i class="fas fa-edit"></i> Edit Entry
+      </button>
+      <button class="btn btn-info" (click)="showViewInfo()" [disabled]="!studentsData.length">
+        <i class="fas fa-info-circle"></i> View Info
+      </button>
+      <button class="btn btn-danger" (click)="deleteEntry()">
+        <i class="fas fa-trash"></i> Delete Entry
       </button>
     </div>
   </div>
@@ -33,7 +37,6 @@
           <th class="text-center">Last Name</th>
           <th class="text-center">Date of Birth</th>
           <th class="text-center">Age</th>
-          <th class="text-center">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -56,28 +59,14 @@
             <input *ngIf="student.editing || student.isNew" type="date" class="form-control text-center" [(ngModel)]="student.Date_Of_Birth" (change)="calculateAge(student)">
           </td>
           <td class="text-center">{{student.Age}}</td>
-          <td class="text-center">
-            <div class="actions">
-              <ng-container *ngIf="!student.editing && !student.isNew">
-                <button class="btn-icon" (click)="editRow(i)" title="Edit">
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button class="btn-icon text-danger" (click)="deleteRow(student.Index_Number)" title="Delete">
-                  <i class="fas fa-trash-alt"></i>
-                </button>
-              </ng-container>
-              <ng-container *ngIf="student.editing || student.isNew">
-                <button class="btn-icon text-success" (click)="updateRow(student)" title="Save">
-                  <i class="fas fa-check"></i>
-                </button>
-                <button class="btn-icon text-danger" (click)="cancelEdit(i)" title="Cancel">
-                  <i class="fas fa-times"></i>
-                </button>
-              </ng-container>
-            </div>
-          </td>
         </tr>
       </tbody>
     </table>
   </div>
+
+  <app-view-info-modal
+    *ngIf="showViewInfoModal && selectedRow"
+    [data]="selectedRow"
+    (close)="closeViewInfoModal()"
+  ></app-view-info-modal>
 </div> 
