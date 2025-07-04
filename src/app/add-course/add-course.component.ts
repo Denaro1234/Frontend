@@ -48,7 +48,7 @@ export class AddCourseComponent {
   constructor(public router: Router, private http: HttpClient) {}
 
   onSubmit(): void {
-    this.http.post('http://localhost:3000/api/v1/courses', this.course).subscribe({
+    this.http.post('http://backenddeployment-production-3dd5.up.railway.app//api/v1/courses', this.course).subscribe({
       next: () => {
         alert('Course added successfully!');
         this.router.navigate(['/courses']);

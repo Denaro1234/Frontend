@@ -141,7 +141,7 @@ export class EditCallsComponent implements OnInit {
   }
 
   fetchRow(id: string): void {
-    this.http.get<CallSheetRow>(`http://localhost:3000/api/v1/s_pre_req/${id}`).subscribe({
+    this.http.get<CallSheetRow>(`http://backenddeployment-production-3dd5.up.railway.app//api/v1/s_pre_req/${id}`).subscribe({
       next: (data: CallSheetRow) => {
         this.row = data;
       },
@@ -153,7 +153,7 @@ export class EditCallsComponent implements OnInit {
   }
 
   updateStudent(): void {
-    this.http.put(`http://localhost:3000/api/v1/s_pre_req/${this.row.Recruitment_Data_ID}`, this.row).subscribe({
+    this.http.put(`http://backenddeployment-production-3dd5.up.railway.app//api/v1/s_pre_req/${this.row.Recruitment_Data_ID}`, this.row).subscribe({
       next: () => {
         alert('Entry updated successfully!');
         this.router.navigate(['/call-sheet']);

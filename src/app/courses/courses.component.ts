@@ -37,7 +37,7 @@ export class CoursesComponent implements OnInit {
     this.loading = true;
     this.error = null;
     
-    this.http.get<Course[]>('http://localhost:3000/api/v1/courses/display')
+    this.http.get<Course[]>('http://backenddeployment-production-3dd5.up.railway.app//api/v1/courses/display')
       .subscribe({
         next: (data: Course[]) => {
           console.log('Courses data received:', data);
@@ -76,7 +76,7 @@ export class CoursesComponent implements OnInit {
 
   deleteCourse(id: number): void {
     if (confirm('Are you sure you want to delete this course?')) {
-      this.http.patch(`http://localhost:3000/api/v1/courses/${id}`, { Class_Status: '0' }).subscribe({
+      this.http.patch(`http://backenddeployment-production-3dd5.up.railway.app//api/v1/courses/${id}`, { Class_Status: '0' }).subscribe({
         next: () => {
           alert('Course deleted successfully!');
           this.fetchData(); // Refresh the data after deletion

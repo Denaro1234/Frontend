@@ -36,7 +36,7 @@ interface StatusOption {
 })
 export class DumpSheetComponent implements OnInit {
   dumpSheetData: DumpSheetRow[] = [];
-  private apiUrl = 'http://localhost:3000/api/v1/dump';
+  private apiUrl = 'http://backenddeployment-production-3dd5.up.railway.app//api/v1/dump';
   showViewInfoModal = false;
   selectedRow: CallSheetRow | null = null;
 
