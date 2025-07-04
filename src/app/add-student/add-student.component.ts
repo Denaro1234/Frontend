@@ -83,7 +83,7 @@ export class AddStudentComponent {
   }
 
   onSubmit(): void {
-    this.http.post('http://backenddeployment-production-3dd5.up.railway.app//api/v1/students', this.student).subscribe({
+    this.http.post('http://backenddeployment-production-3dd5.up.railway.app/api/v1/students', this.student).subscribe({
       next: () => {
         alert('Student added successfully!');
         this.router.navigate(['/students']);

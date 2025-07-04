@@ -35,7 +35,7 @@ interface StatusOption {
 })
 export class CallLaterSheetComponent implements OnInit {
   callLaterData: CallLaterRow[] = [];
-  private apiUrl = 'http://backenddeployment-production-3dd5.up.railway.app//api/v1/call_later';
+  private apiUrl = 'http://backenddeployment-production-3dd5.up.railway.app/api/v1/call_later';
   showViewInfoModal = false;
   selectedRow: CallSheetRow | null = null;
 
