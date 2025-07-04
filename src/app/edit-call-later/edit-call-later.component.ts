@@ -36,7 +36,7 @@ export class EditCallLaterComponent implements OnInit {
     EOD: '',
     Call_Date: ''
   };
-  private apiUrl = 'http://backenddeployment-production-3dd5.up.railway.app/api/v1/call-later';
+  private apiUrl = 'https://backenddeployment-production-3dd5.up.railway.app/api/v1/call-later';
 
   constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router) {}
 

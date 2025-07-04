@@ -35,7 +35,7 @@ interface StatusOption {
 })
 export class CallSheetComponent implements OnInit {
   callSheetData: CallSheetRow[] = [];
-  private apiUrl = 'http://backenddeployment-production-3dd5.up.railway.app/api/v1/s_pre_req';
+  private apiUrl = 'https://backenddeployment-production-3dd5.up.railway.app/api/v1/s_pre_req';
   showViewInfoModal = false;
   selectedRow: CallSheetRow | null = null;
 
@@ -234,7 +234,7 @@ export class CallSheetComponent implements OnInit {
     const { editing, isNew, ...rowToUpdate } = row;
 
     if (row.EOD === 'Move to dump') {
-      this.http.post<CallSheetRow>('http://backenddeployment-production-3dd5.up.railway.app/api/v1/dump', rowToUpdate).subscribe({
+      this.http.post<CallSheetRow>('https://backenddeployment-production-3dd5.up.railway.app/api/v1/dump', rowToUpdate).subscribe({
         next: () => {
           this.http.delete(`${this.apiUrl}/${row.Recruitment_Data_ID}`).subscribe({
             next: () => {
@@ -256,7 +256,7 @@ export class CallSheetComponent implements OnInit {
     }
 
     if (row.EOD === 'Move to call later') {
-      this.http.post<CallSheetRow>('http://backenddeployment-production-3dd5.up.railway.app/api/v1/call-later', rowToUpdate).subscribe({
+      this.http.post<CallSheetRow>('https://backenddeployment-production-3dd5.up.railway.app/api/v1/call-later', rowToUpdate).subscribe({
         next: () => {
           this.http.delete(`${this.apiUrl}/${row.Recruitment_Data_ID}`).subscribe({
             next: () => {
