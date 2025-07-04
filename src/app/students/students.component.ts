@@ -17,6 +17,34 @@ interface StudentDisplay {
   Status?: string;
 }
 
+interface StudentInfo {
+  Index_Number?: number;
+  First_Name: string;
+  Middle_Name?: string;
+  Last_Name: string;
+  Date_Of_Birth: string;
+  Age?: number;
+  Preference_Language: string;
+  Email?: string;
+  School?: string;
+  Phone?: string;
+  Whatsapp_Phone?: string;
+  Start_Date?: string;
+  End_Date?: string;
+  Address: string;
+  Status?: string;
+  Created_On?: string;
+  Created_By?: string;
+  Updated_On?: string;
+  Updated_By?: string;
+  Social_Media_1?: string;
+  Social_Media_2?: string;
+  Social_Media_3?: string;
+  Hobby_1?: string;
+  Hobby_2?: string;
+  Hobby_3?: string;
+}
+
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
@@ -27,7 +55,7 @@ interface StudentDisplay {
 export class StudentsComponent implements OnInit {
   studentsData: StudentDisplay[] = [];
   showViewInfoModal = false;
-  selectedRow: CallSheetRow | null = null;
+  selectedRow: StudentInfo | null = null;
 
   constructor(
     private http: HttpClient,
@@ -166,16 +194,31 @@ export class StudentsComponent implements OnInit {
         this.http.get<any>(`https://backenddeployment-production-3dd5.up.railway.app/api/v1/students/${id}`).subscribe({
           next: (data: any) => {
             this.selectedRow = {
-              Recruitment_Data_ID: data.Index_Number,
-              Parent_Name: data.Parent_Name || '',
-              Student_Name: data.First_Name + ' ' + (data.Middle_Name || '') + ' ' + data.Last_Name,
-              Call_Date: data.Date_Of_Birth,
-              Comments: data.Comments || '',
-              Lead_Source_Code: data.Lead_Source_Code || '',
-              EOD: data.EOD || '',
-              Status: data.Status || '',
-              Contact: data.Phone || '',
-              Email: data.Email || ''
+              Index_Number: data.Index_Number,
+              First_Name: data.First_Name,
+              Middle_Name: data.Middle_Name,
+              Last_Name: data.Last_Name,
+              Date_Of_Birth: data.Date_Of_Birth,
+              Age: data.Age,
+              Preference_Language: data.Preference_Language,
+              Email: data.Email,
+              School: data.School,
+              Phone: data.Phone,
+              Whatsapp_Phone: data.Whatsapp_Phone,
+              Start_Date: data.Start_Date,
+              End_Date: data.End_Date,
+              Address: data.Address,
+              Status: data.Status,
+              Created_On: data.Created_On,
+              Created_By: data.Created_By,
+              Updated_On: data.Updated_On,
+              Updated_By: data.Updated_By,
+              Social_Media_1: data.Social_Media_1,
+              Social_Media_2: data.Social_Media_2,
+              Social_Media_3: data.Social_Media_3,
+              Hobby_1: data.Hobby_1,
+              Hobby_2: data.Hobby_2,
+              Hobby_3: data.Hobby_3
             };
             this.showViewInfoModal = true;
           },

@@ -22,51 +22,17 @@ export interface CallSheetRow {
     <div class="modal-overlay" (click)="onClose()">
       <div class="modal-content" (click)="$event.stopPropagation()">
         <div class="modal-header">
-          <h2>Call Sheet Information</h2>
+          <h2>Information</h2>
           <button class="close-button" (click)="onClose()">&times;</button>
         </div>
         <div class="modal-body">
           <div class="info-grid">
-            <div class="info-item">
-              <label>ID</label>
-              <div>{{data.Recruitment_Data_ID}}</div>
-            </div>
-            <div class="info-item">
-              <label>Parent Name</label>
-              <div>{{data.Parent_Name}}</div>
-            </div>
-            <div class="info-item">
-              <label>Student Name</label>
-              <div>{{data.Student_Name}}</div>
-            </div>
-            <div class="info-item">
-              <label>Contact Date</label>
-              <div>{{data.Call_Date | date:'medium'}}</div>
-            </div>
-            <div class="info-item">
-              <label>Comments</label>
-              <div>{{data.Comments}}</div>
-            </div>
-            <div class="info-item">
-              <label>Lead Source</label>
-              <div>{{data.Lead_Source_Code}}</div>
-            </div>
-            <div class="info-item">
-              <label>EOD</label>
-              <div>{{data.EOD}}</div>
-            </div>
-            <div class="info-item">
-              <label>Status</label>
-              <div>{{data.Status}}</div>
-            </div>
-            <div class="info-item">
-              <label>Contact</label>
-              <div>{{data.Contact}}</div>
-            </div>
-            <div class="info-item">
-              <label>Email</label>
-              <div>{{data.Email}}</div>
-            </div>
+            <ng-container *ngFor="let key of getKeys(data)">
+              <div class="info-item">
+                <label>{{ toLabel(key) }}</label>
+                <div>{{ data[key] }}</div>
+              </div>
+            </ng-container>
           </div>
         </div>
       </div>
@@ -156,10 +122,22 @@ export interface CallSheetRow {
   `]
 })
 export class ViewInfoModalComponent {
-  @Input() data!: CallSheetRow;
+  @Input() data!: any;
   @Output() close = new EventEmitter<void>();
 
   onClose(): void {
     this.close.emit();
+  }
+
+  getKeys(obj: any): string[] {
+    return obj ? Object.keys(obj) : [];
+  }
+
+  toLabel(key: string): string {
+    // Convert snake_case or camelCase to Title Case with spaces
+    return key
+      .replace(/_/g, ' ')
+      .replace(/([a-z])([A-Z])/g, '$1 $2')
+      .replace(/\b\w/g, l => l.toUpperCase());
   }
 } 
