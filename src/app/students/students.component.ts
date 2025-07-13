@@ -67,7 +67,7 @@ export class StudentsComponent implements OnInit {
   }
 
   fetchData(): void {
-    this.http.get<StudentDisplay[]>('https://backenddeployment-production-a4eb.up.railway.api/api/v1/students/display').subscribe({
+    this.http.get<StudentDisplay[]>('https://backenddeployment-production-a4eb.up.railway.app/api/v1/students/display').subscribe({
       next: (data: StudentDisplay[]) => {
         this.studentsData = data;
       },
@@ -125,7 +125,7 @@ export class StudentsComponent implements OnInit {
     this.calculateAge(student);
     const { editing, isNew, ...studentToUpdate } = student;
     if (student.isNew) {
-      this.http.post('https://backenddeployment-production-a4eb.up.railway.api/api/v1/students', studentToUpdate).subscribe({
+      this.http.post('https://backenddeployment-production-a4eb.up.railway.app/api/v1/students', studentToUpdate).subscribe({
         next: () => {
           alert('Student added successfully!');
           this.fetchData();
@@ -136,7 +136,7 @@ export class StudentsComponent implements OnInit {
         }
       });
     } else {
-      this.http.put(`https://backenddeployment-production-a4eb.up.railway.api/api/v1/students/${student.Index_Number}`, studentToUpdate).subscribe({
+      this.http.put(`https://backenddeployment-production-a4eb.up.railway.app/api/v1/students/${student.Index_Number}`, studentToUpdate).subscribe({
         next: () => {
           alert('Student updated successfully!');
           student.editing = false;
@@ -153,7 +153,7 @@ export class StudentsComponent implements OnInit {
   deleteRow(id: number | null): void {
     if (!id) return alert('Invalid ID');
     if (confirm('Are you sure you want to delete this entry?')) {
-      this.http.patch(`https://backenddeployment-production-a4eb.up.railway.api/api/v1/students/${id}`, { Updated_By: 'System' }).subscribe({
+      this.http.patch(`https://backenddeployment-production-a4eb.up.railway.app/api/v1/students/${id}`, { Updated_By: 'System' }).subscribe({
         next: () => {
           alert('Student deleted successfully!');
           this.fetchData();
@@ -191,7 +191,7 @@ export class StudentsComponent implements OnInit {
     if (idString) {
       const id = parseInt(idString, 10);
       if (!isNaN(id)) {
-        this.http.get<any>(`https://backenddeployment-production-a4eb.up.railway.api/api/v1/students/${id}`).subscribe({
+        this.http.get<any>(`https://backenddeployment-production-a4eb.up.railway.app/api/v1/students/${id}`).subscribe({
           next: (data: any) => {
             this.selectedRow = {
               Index_Number: data.Index_Number,
@@ -247,7 +247,7 @@ export class StudentsComponent implements OnInit {
       const id = parseInt(idString, 10);
       if (!isNaN(id)) {
         if (confirm('Are you sure you want to delete this entry?')) {
-          this.http.patch(`https://backenddeployment-production-a4eb.up.railway.api/api/v1/students/${id}`, { Updated_By: 'System' }).subscribe({
+          this.http.patch(`https://backenddeployment-production-a4eb.up.railway.app/api/v1/students/${id}`, { Updated_By: 'System' }).subscribe({
             next: () => {
               alert('Student deleted successfully!');
               this.fetchData();
