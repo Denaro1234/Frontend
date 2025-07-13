@@ -69,7 +69,7 @@ export class CallLaterSheetComponent implements OnInit {
   }
 
   fetchData(): void {
-    this.http.get<CallLaterRow[]>(`${this.apiUrl}/display`).subscribe({
+    this.http.get<CallLaterRow[]>(`${this.apiUrl}`).subscribe({
       next: (data: CallLaterRow[]) => {
         console.log('Fetched data:', data);
         this.callLaterData = data.map((row: CallLaterRow) => ({
