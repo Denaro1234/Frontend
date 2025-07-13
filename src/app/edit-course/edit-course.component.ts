@@ -62,7 +62,7 @@ export class EditCourseComponent implements OnInit {
   }
 
   fetchCourseData(id: number): void {
-    this.http.get<Course>(`https://backenddeployment-production-3dd5.up.railway.app/api/v1/courses/${id}`).subscribe({
+    this.http.get<Course>(`https://backenddeployment-production-a4eb.up.railway.api/api/v1/courses/${id}`).subscribe({
       next: (data: Course) => {
         this.course = data;
       },
@@ -76,7 +76,7 @@ export class EditCourseComponent implements OnInit {
 
   onSubmit(): void {
     if (this.courseId) {
-      this.http.put(`https://backenddeployment-production-3dd5.up.railway.app/api/v1/courses/${this.courseId}`, this.course).subscribe({
+      this.http.put(`https://backenddeployment-production-a4eb.up.railway.api/api/v1/courses/${this.courseId}`, this.course).subscribe({
         next: () => {
           alert('Course updated successfully!');
           this.router.navigate(['/courses']);
@@ -93,7 +93,7 @@ export class EditCourseComponent implements OnInit {
     if (confirm('Are you sure you want to delete this course?')) {
       if (this.courseId) {
         // Assuming a soft delete (PATCH) similar to students
-        this.http.patch(`https://backenddeployment-production-3dd5.up.railway.app/api/v1/courses/${this.courseId}`, { Class_Status: '0' }).subscribe({
+        this.http.patch(`https://backenddeployment-production-a4eb.up.railway.api/api/v1/courses/${this.courseId}`, { Class_Status: '0' }).subscribe({
           next: () => {
             alert('Course soft-deleted successfully!');
             this.router.navigate(['/courses']);

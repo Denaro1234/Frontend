@@ -40,7 +40,7 @@ export class CoursesComponent implements OnInit {
     this.loading = true;
     this.error = null;
     
-    this.http.get<Course[]>('https://backenddeployment-production-3dd5.up.railway.app/api/v1/courses/display')
+    this.http.get<Course[]>('https://backenddeployment-production-a4eb.up.railway.api/api/v1/courses/display')
       .subscribe({
         next: (data: Course[]) => {
           console.log('Courses data received:', data);
@@ -79,7 +79,7 @@ export class CoursesComponent implements OnInit {
 
   deleteCourse(id: number): void {
     if (confirm('Are you sure you want to delete this course?')) {
-      this.http.patch(`https://backenddeployment-production-3dd5.up.railway.app/api/v1/courses/${id}`, { Class_Status: '0' }).subscribe({
+      this.http.patch(`https://backenddeployment-production-a4eb.up.railway.api/api/v1/courses/${id}`, { Class_Status: '0' }).subscribe({
         next: () => {
           alert('Course deleted successfully!');
           this.fetchData(); // Refresh the data after deletion
@@ -109,7 +109,7 @@ export class CoursesComponent implements OnInit {
     if (idString) {
       const id = parseInt(idString, 10);
       if (!isNaN(id)) {
-        this.http.get<any>(`https://backenddeployment-production-3dd5.up.railway.app/api/v1/courses/${id}`).subscribe({
+        this.http.get<any>(`https://backenddeployment-production-a4eb.up.railway.api/api/v1/courses/${id}`).subscribe({
           next: (data: any) => {
             this.selectedRow = {
               Recruitment_Data_ID: data.Course_ID,
@@ -150,7 +150,7 @@ export class CoursesComponent implements OnInit {
       const id = parseInt(idString, 10);
       if (!isNaN(id)) {
         if (confirm('Are you sure you want to delete this entry?')) {
-          this.http.patch(`https://backenddeployment-production-3dd5.up.railway.app/api/v1/courses/${id}`, { Class_Status: '0' }).subscribe({
+          this.http.patch(`https://backenddeployment-production-a4eb.up.railway.api/api/v1/courses/${id}`, { Class_Status: '0' }).subscribe({
             next: () => {
               alert('Course deleted successfully!');
               this.fetchData();

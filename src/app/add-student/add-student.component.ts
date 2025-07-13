@@ -45,7 +45,7 @@ export class AddStudentComponent {
     Middle_Name: '',
     Last_Name: '',
     Date_Of_Birth: '',
-    Age: undefined,
+    Age: 0,
     Preference_Language: '',
     Email: '',
     School: '',
@@ -83,7 +83,7 @@ export class AddStudentComponent {
   }
 
   onSubmit(): void {
-    this.http.post('https://backenddeployment-production-3dd5.up.railway.app/api/v1/students', this.student).subscribe({
+    this.http.post('https://backenddeployment-production-a4eb.up.railway.api/api/v1/students', this.student).subscribe({
       next: () => {
         alert('Student added successfully!');
         this.router.navigate(['/students']);

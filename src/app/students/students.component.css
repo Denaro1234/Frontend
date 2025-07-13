@@ -110,11 +110,9 @@ h1 {
   margin-top: 2rem;
 }
 
-.table {
+.table, table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  min-width: 1000px;
+  border-collapse: collapse;
 }
 
 .table th:nth-child(1), 
@@ -144,7 +142,7 @@ h1 {
 .table th:nth-child(9), 
 .table td:nth-child(9) { width: 9%; }  /* Actions */
 
-.table th {
+.table th, th {
   background: #f8f9fa;
   padding: 1rem;
   font-weight: 600;
@@ -154,7 +152,7 @@ h1 {
   white-space: nowrap;
 }
 
-.table td {
+.table td, td {
   padding: 1rem;
   border-bottom: 1px solid #e0e0e0;
   color: #333;
@@ -249,4 +247,15 @@ select.form-control {
     flex-direction: column;
     width: 100%;
   }
+}
+
+.page-header, .page-container, .stats, .header-actions {
+  display: initial;
+  flex-direction: initial;
+  align-items: initial;
+}
+
+th, td, .table th, .table td {
+  text-align: center;
+  vertical-align: middle;
 } 

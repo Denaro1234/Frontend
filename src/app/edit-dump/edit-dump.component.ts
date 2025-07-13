@@ -24,7 +24,7 @@ export class EditDumpComponent implements OnInit {
     Dumped_Date: '',
     Comments: ''
   };
-  private apiUrl = 'https://backenddeployment-production-3dd5.up.railway.app/api/v1/dump';
+  private apiUrl = 'https://backenddeployment-production-a4eb.up.railway.api/api/v1/dump';
 
   constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router) {}
 
