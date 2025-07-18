@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+/* Removed Google Fonts @import for Nunito to avoid Vercel CSS budget issues. Font will be loaded via <link> in index.html. */
 
 :root {
   --meulabs-primary: #0B3951;
