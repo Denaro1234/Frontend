@@ -111,8 +111,6 @@ export class EditCallsComponent implements OnInit {
 
   eodOptions = [
     { value: 'Keep - RNA', label: 'Keep - RNA' },
-    { value: 'Move to call later', label: 'Move to call later' },
-    { value: 'Move to dump', label: 'Move to dump' },
     { value: 'Keep - Nurture', label: 'Keep - Nurture' }
   ];
 

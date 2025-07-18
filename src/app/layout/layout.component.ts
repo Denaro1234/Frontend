@@ -65,7 +65,7 @@ import { RouterModule } from '@angular/router';
     }
     .main-content {
       flex: 1;
-      background: #f8f9fa;
+      background: #0B3951;
       min-height: 100vh;
       padding: 0;
       display: flex;
