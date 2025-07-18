@@ -21,201 +21,105 @@ body {
   font-family: 'Arial', sans-serif;
 }
 
+/* --- Copied from students.component.css for full visual consistency --- */
 .page-container {
-  padding: 20px; /* Overall padding for the content inside */
-  background: #f8fafc;
-  min-height: calc(100vh - 64px);
-  width: 100% !important; /* Take full width of its parent */
-  max-width: none; /* Explicitly remove max-width constraint to allow full expansion */
-  margin: 0; /* Remove auto margins to allow full width */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Shadow for the main content area */
+  background: #0B3951 !important;
+  min-height: 100vh;
+  padding: 20px;
 }
-
-.page-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin-bottom: 2rem;
-  padding: 0;
+.card, .table-container {
+  background: #f8fafc !important;
+  border-radius: 12px !important;
+  margin: 32px auto !important;
+  padding: 16px !important;
+  box-shadow: 0 2px 12px rgba(11, 57, 81, 0.15) !important;
+  width: 100% !important;
+  max-width: 1200px !important;
 }
-
-h1 {
-  font-size: 2.5rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 1.5rem;
-}
-
-.stats {
-  display: flex;
-  gap: 2rem;
-  justify-content: center;
-  margin-bottom: 2rem;
-}
-
-.stat-item {
-  background: #ffffff;
-  padding: 1.5rem 2.5rem;
-  border-radius: 12px;
-  text-align: center;
-  min-width: 0; /* Allow stat items to shrink */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.stat-value {
-  font-size: 2rem;
-  font-weight: 600;
-  color: #0066ff;
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-.stat-label {
-  font-size: 0.875rem;
-  color: #666;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
 .header-actions {
   display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+  padding-left: 0;
 }
-
-.btn {
+.btn, .btn-meulabs-primary, .btn-meulabs-secondary, .btn-meulabs-info, .btn-meulabs-success, .btn-meulabs-danger, .btn-meulabs-warning, .btn-meulabs-dark {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 2rem;
   border-radius: 8px;
   font-weight: 500;
   transition: all 0.2s;
   cursor: pointer;
   border: none;
+  background: #F98F26 !important;
+  color: #fff !important;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(249,143,38,0.08);
 }
-
 .btn i {
   font-size: 1rem;
 }
-
-.btn-primary {
-  background: #0066ff;
-  color: #ffffff;
+.btn:hover, .header-actions .btn:hover {
+  background: #ffb25a !important;
+  color: #0B3951 !important;
 }
-
-.btn-primary:hover {
-  background: #0052cc;
-}
-
-.btn-secondary {
-  background: #f0f7ff;
-  color: #0066ff;
-}
-
-.btn-secondary:hover {
-  background: #e5f0ff;
-}
-
-.btn-info {
-  background-color: #17a2b8;
-  border-color: #17a2b8;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.btn-info:hover {
-  background-color: #138496;
-  border-color: #138496;
-}
-
-.btn-info:disabled {
-  background-color: #6c757d;
-  border-color: #6c757d;
-  cursor: not-allowed;
-}
-
-.btn-info i {
-  font-size: 16px;
-}
-
 .table-responsive {
-  background: #ffffff;
+  background: #fff !important;
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  width: 100% !important; /* Force width */
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
   overflow-x: auto !important;
   margin-top: 2rem;
 }
-
 .table {
-  width: 100% !important; /* Force width */
-  border-collapse: separate;
-  border-spacing: 0;
-  min-width: 0 !important; /* Explicitly set min-width to 0 */
-  table-layout: fixed; /* Keep table-layout fixed */
+  width: 100% !important;
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+  min-width: 0 !important;
+  table-layout: fixed;
+  background: #fff;
+  box-sizing: border-box !important;
 }
-
-.table th:nth-child(1),
-.table td:nth-child(1) { width: 7%; }  /* ID */
-
-.table th:nth-child(2),
-.table td:nth-child(2) { width: 15%; }  /* Parent Name */
-
-.table th:nth-child(3),
-.table td:nth-child(3) { width: 15%; }  /* Student Name */
-
-.table th:nth-child(4),
-.table td:nth-child(4) { width: 13%; }  /* Contact Date */
-
-.table th:nth-child(5),
-.table td:nth-child(5) { width: auto; }  /* Comments */
-
-.table th:nth-child(6),
-.table td:nth-child(6) { width: auto; }  /* Lead Source */
-
-.table th:nth-child(7),
-.table td:nth-child(7) { width: 8%; }  /* EOD */
-
-.table th:nth-child(8),
-.table td:nth-child(8) { width: 8%; }  /* Status */
-
-.table th:nth-child(9),
-.table td:nth-child(9) { width: auto; }  /* Contact */
-
-.table th:nth-child(10),
-.table td:nth-child(10) { width: auto; }  /* Email */
-
+.table th, .table td {
+  text-align: center !important;
+}
+.table th:nth-child(1), .table td:nth-child(1) { width: 7%; }
+.table th:nth-child(2), .table td:nth-child(2) { width: 12%; }
+.table th:nth-child(3), .table td:nth-child(3) { width: 40%; }
+.table th:nth-child(4), .table td:nth-child(4) { width: 10%; }
+.table th:nth-child(5), .table td:nth-child(5) { width: 10%; }
+.table th:nth-child(6), .table td:nth-child(6) { width: 10%; }
+.table th:nth-child(7), .table td:nth-child(7) { width: 8%; }
+.table th:nth-child(8), .table td:nth-child(8) { width: 8%; }
+.table th:nth-child(9), .table td:nth-child(9) { width: auto; }
+.table th:nth-child(10), .table td:nth-child(10) { width: auto; }
+h1 {
+  text-align: center !important;
+  color: #fff !important;
+}
 .table th {
-  background: #f8f9fa;
-  padding: 1rem;
-  font-weight: 600;
-  color: #333;
-  text-align: center;
-  border-bottom: 1px solid #e0e0e0;
-  white-space: normal; /* Allow text to wrap in headers */
+  color: #111 !important;
+  font-weight: 700;
+  font-family: 'Nunito', Arial, sans-serif !important;
+  font-size: 14px !important;
 }
-
 .table td {
-  padding: 1rem;
-  border-bottom: 1px solid #e0e0e0;
-  color: #333;
-  text-align: center;
-  vertical-align: middle;
-  white-space: normal; /* Ensure text wraps in data cells */
+  color: #0B3951;
+  font-family: 'Nunito', Arial, sans-serif !important;
+  font-size: 14px !important;
 }
-
 .table tbody tr:hover {
-  background: #f8f9fa;
+  background: #f8fafc;
 }
+/* --- End copied styles --- */
 
 .form-control {
     width: 100%;

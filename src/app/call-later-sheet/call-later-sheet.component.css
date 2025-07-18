@@ -17,13 +17,13 @@ body {
   padding: 0; /* Remove horizontal padding here */
   width: 100% !important; /* Ensure body takes full viewport width */
   overflow-x: hidden !important; /* Hide horizontal scrollbar for body */
-  background-color: #f0f2f5; /* Background color for the page */
+  background-color: #0B3951; /* Background color for the page */
   font-family: 'Arial', sans-serif;
 }
 
 .page-container {
   padding: 20px; /* Overall padding for the content inside */
-  background: #f8fafc;
+  background: #0B3951 !important;
   min-height: calc(100vh - 64px);
   width: 100% !important; /* Take full width of its parent */
   max-width: none; /* Explicitly remove max-width constraint to allow full expansion */
@@ -43,7 +43,7 @@ body {
 h1 {
   font-size: 2.5rem;
   font-weight: 600;
-  color: #333;
+  color: #ffffff;
   margin-bottom: 1.5rem;
 }
 
@@ -149,7 +149,7 @@ h1 {
 
 /* --- Copied from call-sheet.component.css for visual consistency --- */
 .table-responsive {
-  background: #ffffff;
+  background: #fff !important;
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   width: 100% !important;
@@ -338,3 +338,47 @@ select.form-control {
   background-color: #f3e8ff; /* Light purple */
   color: #7c3aed; /* Darker purple */
 }
+
+/* --- Copied from call-sheet.component.css for full visual consistency --- */
+.page-container {
+  background: #f8fafc;
+  min-height: 100vh;
+  padding: 20px;
+}
+.card, .table-container {
+  background: #f8fafc !important;
+  border-radius: 12px !important;
+  margin: 32px auto !important;
+  padding: 16px !important;
+  box-shadow: 0 2px 12px rgba(11, 57, 81, 0.15) !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+}
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.btn, .btn-meulabs-primary, .btn-meulabs-secondary, .btn-meulabs-info, .btn-meulabs-success, .btn-meulabs-danger, .btn-meulabs-warning, .btn-meulabs-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+  background: #F98F26 !important;
+  color: #fff !important;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(249,143,38,0.08);
+}
+.btn i {
+  font-size: 1rem;
+}
+.btn:hover, .header-actions .btn:hover {
+  background: #ffb25a !important;
+  color: #0B3951 !important;
+}
+/* --- End copied styles --- */

@@ -78,17 +78,7 @@ export class StudentsComponent implements OnInit {
   }
 
   addRow(): void {
-    const newRow: StudentDisplay = {
-      Index_Number: null,
-      First_Name: '',
-      Middle_Name: '',
-      Last_Name: '',
-      Date_Of_Birth: new Date().toISOString().slice(0, 10),
-      Age: 0,
-      editing: true,
-      isNew: true
-    };
-    this.studentsData.unshift(newRow);
+    this.router.navigate(['/add-student']);
   }
 
   editRow(index: number): void {

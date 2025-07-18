@@ -2,6 +2,8 @@
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 10px;
 }
 
 .page-header {
@@ -95,12 +97,12 @@ h1 {
 }
 
 .btn-primary {
-  background: #0066ff;
-  color: #ffffff;
+  background: #F98F26;
+  color: #000000;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #0052cc;
+  background: #f98f2693;
 }
 
 .btn-primary:disabled {
@@ -110,9 +112,9 @@ h1 {
 
 .btn-secondary {
   background: #f0f7ff;
-  color: #0066ff;
+  color: #F98F26;
 }
 
 .btn-secondary:hover {
-  background: #e5f0ff;
+  background: #f98f2693;
 } 

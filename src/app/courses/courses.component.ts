@@ -93,15 +93,7 @@ export class CoursesComponent implements OnInit {
   }
 
   addRow(): void {
-    const newRow: Course = {
-      Course_ID: 0,
-      Course_Name: '',
-      Course_Description: '',
-      Instructor_Head_ID: 0,
-      Instructor_Lab_ID: 0,
-      Clan: '',
-    };
-    this.courses.unshift(newRow);
+    this.router.navigate(['/add-course']);
   }
 
   showViewInfo(): void {
