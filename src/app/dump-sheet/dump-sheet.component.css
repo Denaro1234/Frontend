@@ -147,75 +147,70 @@ h1 {
   font-size: 16px;
 }
 
+/* --- Copied from call-sheet.component.css for visual consistency --- */
 .table-responsive {
   background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  width: 100% !important; /* Force width */
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
   overflow-x: auto !important;
   margin-top: 2rem;
 }
 
 .table {
-  width: 100% !important; /* Force width */
-  border-collapse: separate;
-  border-spacing: 0;
-  min-width: 0 !important; /* Explicitly set min-width to 0 */
-  table-layout: fixed; /* Keep table-layout fixed */
+  width: 100% !important;
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+  min-width: 0 !important;
+  table-layout: fixed;
+  background: #fff;
+  box-sizing: border-box !important;
 }
 
-.table th:nth-child(1),
-.table td:nth-child(1) { width: 7%; }  /* ID */
-
-.table th:nth-child(2),
-.table td:nth-child(2) { width: 15%; }  /* Parent Name */
-
-.table th:nth-child(3),
-.table td:nth-child(3) { width: 15%; }  /* Student Name */
-
-.table th:nth-child(4),
-.table td:nth-child(4) { width: 13%; }  /* Contact Date */
-
-.table th:nth-child(5),
-.table td:nth-child(5) { width: auto; }  /* Comments */
-
-.table th:nth-child(6),
-.table td:nth-child(6) { width: auto; }  /* Lead Source */
-
-.table th:nth-child(7),
-.table td:nth-child(7) { width: 8%; }  /* EOD */
-
-.table th:nth-child(8),
-.table td:nth-child(8) { width: 8%; }  /* Status */
-
-.table th:nth-child(9),
-.table td:nth-child(9) { width: auto; }  /* Contact */
-
-.table th:nth-child(10),
-.table td:nth-child(10) { width: auto; }  /* Email */
+.table th:nth-child(1), .table td:nth-child(1) { width: 7%; }
+.table th:nth-child(2), .table td:nth-child(2) { width: 10%; }
+.table th:nth-child(3), .table td:nth-child(3) { width: 10%; }
+.table th:nth-child(4), .table td:nth-child(4) { width: auto; }
+.table th:nth-child(5), .table td:nth-child(5) { width: auto; }
+.table th:nth-child(6), .table td:nth-child(6) { width: auto; }
+.table th:nth-child(7), .table td:nth-child(7) { width: 8%; }
+.table th:nth-child(8), .table td:nth-child(8) { width: 8%; }
+.table th:nth-child(9), .table td:nth-child(9) { width: auto; }
+.table th:nth-child(10), .table td:nth-child(10) { width: auto; }
 
 .table th {
-  background: #f8f9fa;
+  background: #fff;
   padding: 1rem;
   font-weight: 600;
-  color: #333;
+  color: #0B3951;
   text-align: center;
   border-bottom: 1px solid #e0e0e0;
-  white-space: normal; /* Allow text to wrap in headers */
+  white-space: normal;
+  font-family: 'Nunito', Arial, sans-serif !important;
+  font-size: 14px !important;
 }
 
 .table td {
   padding: 1rem;
   border-bottom: 1px solid #e0e0e0;
-  color: #333;
+  color: #0B3951;
   text-align: center;
   vertical-align: middle;
-  white-space: normal; /* Ensure text wraps in data cells */
+  white-space: normal;
+  background: #fff;
+  font-family: 'Nunito', Arial, sans-serif !important;
+  font-size: 14px !important;
 }
 
 .table tbody tr:hover {
-  background: #f8f9fa;
+  background: #f8fafc;
 }
+/* --- End copied styles --- */
 
 .form-control {
   width: 100%;
